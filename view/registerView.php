@@ -1,14 +1,9 @@
 <?php
 
 class RegisterView {
-	private static $login = 'LoginView::Login';
-	private static $logout = 'LoginView::Logout';
-	private static $name = 'LoginView::UserName';
-	private static $password = 'LoginView::Password';
-	private static $cookieName = 'LoginView::CookieName';
-	private static $cookiePassword = 'LoginView::CookiePassword';
-	private static $keep = 'LoginView::KeepMeLoggedIn';
-	private static $messageId = 'LoginView::Message';
+	private static $userName = "RegisterView::UserName";
+	private static $passWord = "RegisterView::Password";
+	private static $passWordRepeat = "RegisterView::PasswordRepeat";
 
 	/**
 	 * Create HTTP response
@@ -53,8 +48,12 @@ class RegisterView {
 	}
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	private function getRequestUserName() {
-		//RETURN REQUEST VARIABLE: USERNAME
+	public function getRequestUserName() {
+		$uN = $_POST[self::$userName];
+		$pW1 = $_POST[self::$passWord];
+		$pW2 = $_POST[self::$passWordRepeat];
+
+		echo $uN . ' ' . $pW1 . ' ' . $pW2;
 	}
 	
 }

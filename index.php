@@ -23,4 +23,4 @@ $lv = new LayoutView();
 $lv->render(false, $loginView, $dtv, $registerView);
 
 $router = new \controller\Router();
-$router->route();
+$router->route($registerView);

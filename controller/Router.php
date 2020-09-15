@@ -6,9 +6,12 @@ class Router {
 
     private static $register = "register";
 
-    public function route() {
+    public function route($rV) {
+
         if(isset($_GET[self::$register])) {
-            echo "Registrera!";
+            if(count($_POST) > 0) {
+                $rV->getRequestUserName();
+            }
         }
     }
 }
