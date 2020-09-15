@@ -2,7 +2,7 @@
 
 namespace model;
 
-class Time {
+class DateTime {
 
     public function getYear() : int {
         return date("Y");

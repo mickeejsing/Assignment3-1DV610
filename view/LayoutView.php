@@ -2,8 +2,10 @@
 
 
 class LayoutView {
+
+  private static $register = "register";
   
-  public function render($isLoggedIn, LoginView $v, DateTimeView $dtv) {
+  public function render($isLoggedIn, LoginView $lv, DateTimeView $dtv, RegisterView $rv) {
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -12,10 +14,11 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
+          ' . $this->getLink() . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $v->response() . '
+              ' . $this->getForm($lv, $rv) . '
               
               ' . $dtv->show() . '
           </div>
@@ -31,5 +34,26 @@ class LayoutView {
     else {
       return '<h2>Not logged in</h2>';
     }
+  }
+
+  // Generates link.
+  private function getLink() {
+
+    if(isset($_GET[self::$register])) {
+      return "<a href='?'>Back to login</a>";      
+    } 
+
+    return "<a href='?register'>Register a new user</a>";
+  }
+
+  // Decides what form to generate.
+  private function getForm($lv, $rv) {
+    
+    if(isset($_GET[self::$register])) {
+      return $rv->response();
+    } 
+    
+    return $lv->response();
+
   }
 }

@@ -1,10 +1,11 @@
 <?php
+date_default_timezone_set("Europe/Stockholm");  
 
 class DateTimeView {
 
 	private $serverTime;
 
-	public function __construct (\model\Time $serverTime) {
+	public function __construct (\model\DateTime $serverTime) {
 		$this->serverTime = $serverTime;
 	}
 
