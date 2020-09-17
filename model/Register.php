@@ -19,4 +19,12 @@ class Register {
 
         return false;
     }
+
+    public function isEqual ($x, $y) {
+        if($x == $y) {
+            return true;
+        }
+
+        return false;
+    }
 }
