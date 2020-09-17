@@ -18,7 +18,7 @@ class LayoutView {
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $this->getForm($lv, $rv) . '
+              ' . $this->ShowCurrentPage($lv, $rv) . '
               
               ' . $dtv->show() . '
           </div>
@@ -46,14 +46,11 @@ class LayoutView {
     return "<a href='?register'>Register a new user</a>";
   }
 
-  // Decides what form to generate.
-  private function getForm($lv, $rv) {
-    
+  private function showCurrentPage($lv, $rv) {
     if(isset($_GET[self::$register])) {
       return $rv->response();
     } 
-    
-    return $lv->response();
 
+    return $lv->response();
   }
 }
