@@ -10,6 +10,14 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
+	public $loginMessage = '';
+
+	private $loginModel;
+
+	public function __construct (\model\Login $loginModel) {
+		$this->loginModel = $loginModel;
+	}
+
 	/**
 	 * Create HTTP response
 	 *
@@ -18,7 +26,7 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = '';
+		$message = $this->loginMessage;
 		
 		$response = $this->generateLoginFormHTML($message);
 		//$response .= $this->generateLogoutButtonHTML($message);
@@ -72,13 +80,27 @@ class LoginView {
 		$name = $_POST[self::$name];
 		$password = $_POST[self::$password];
 
-		echo "Vill logga in!";
+		if ($this->loginModel->isEmpty($name)) {
+
+			$this->setLoginMessage("Username is missing.");
+
+		} else {
+			if ($this->loginModel->isEmpty($password)) {
+
+				$this->setLoginMessage("Password is missing.");
+	
+			}
+		}
 	}
 
 	public function userWantsToLogin() {
 		if(isset($_POST[self::$name])) {
 			return true;
 		}
-    }
+	}
+	
+	public function setLoginMessage($msg) {
+		$this->loginMessage.= $msg;
+	}
 	
 }

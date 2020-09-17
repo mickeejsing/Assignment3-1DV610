@@ -8,6 +8,7 @@
 
     require_once('model/DateTime.php');
     require_once('model/Register.php');
+    require_once('model/Login.php');
 
     require_once('controller/LoginSystem.php');
 
@@ -21,7 +22,7 @@ class App {
 
     public function __construct () {
         //CREATE OBJECTS OF THE VIEWS
-        $this->loginView = new LoginView();
+        $this->loginView = new LoginView(new \model\Login());
         $this->registerView = new RegisterView(new \model\Register());
         $this->dateTimeView = new DateTimeView(new \model\DateTime());
         $this->layoutView = new LayoutView();
