@@ -9,8 +9,10 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	
 
 	public $loginMessage = '';
+	public $saveUserAferSubmit = '';
 
 	private $loginModel;
 
@@ -27,6 +29,7 @@ class LoginView {
 	 */
 	public function response() {
 		$message = $this->loginMessage;
+		$saveUserAferSubmit = $this->saveUserAferSubmit;
 		
 		$response = $this->generateLoginFormHTML($message);
 		//$response .= $this->generateLogoutButtonHTML($message);
@@ -60,7 +63,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->saveUserAferSubmit . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -82,12 +85,15 @@ class LoginView {
 
 		if ($this->loginModel->isEmpty($name)) {
 
-			$this->setLoginMessage("Username is missing.");
+			$this->setLoginMessage("Username is missing");
 
 		} else {
+
+			$this->saveUserAferSubmit();
+
 			if ($this->loginModel->isEmpty($password)) {
 
-				$this->setLoginMessage("Password is missing.");
+				$this->setLoginMessage("Password is missing");
 	
 			}
 		}
@@ -101,6 +107,10 @@ class LoginView {
 	
 	public function setLoginMessage($msg) {
 		$this->loginMessage.= $msg;
+	}
+
+	private function saveUserAferSubmit() {
+		$this->saveUserAferSubmit = $_POST[self::$name];
 	}
 	
 }
