@@ -5,8 +5,6 @@ class LoginView {
 	private static $logout = 'LoginView::Logout';
 	private static $name = 'LoginView::UserName';
 	private static $password = 'LoginView::Password';
-	private static $cookieName = 'LoginView::CookieName';
-	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	
@@ -155,7 +153,7 @@ class LoginView {
 	}
 
 	public function loginUser($userName, $passWord) {
-		$this->loginModel->setSession($userName, $passWord);
+		$this->loginModel->setCookie($userName, $passWord);
 	}
 	
 }

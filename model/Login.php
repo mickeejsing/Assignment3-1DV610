@@ -2,9 +2,6 @@
 
 namespace model;
 
-// Start session.
-session_start();
-
 require_once('model/User.php');
 
 class Login {
@@ -12,7 +9,8 @@ class Login {
     private static $src = './database/credits.json';
     private static $userKey = "username";
     private static $passKey = "password";
-    private static $session = "user";
+    private static $cookieName = 'LoginView::CookieName';
+	private static $cookiePassword = 'LoginView::CookiePassword';
 
 
     public function isEmpty ($userName) {
@@ -41,12 +39,19 @@ class Login {
         return false;
     }
 
-    public function setSession ($userName, $passWord) {
-        $user = new \model\User($userName, $passWord);
-         $_SESSION[self::$session] = serialize($user);
+    public function setCookie ($userName, $passWord) {
+        $nameCookie1 = self::$cookieName;
+        $valueUser = $userName;
+
+        setcookie($nameCookie1, $valueUser, time() + (86400 * 30), "/");
+
+        $nameCookie2 = self::$cookiePassword;
+        $valuePassword = $passWord;
+
+        setcookie($nameCookie2, $valuePassword, time() + (86400 * 30), "/");
     }
 
     public function loggedIn() {
-        return isset($_SESSION[self::$session]);
+        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 }

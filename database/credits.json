@@ -1,14 +1,18 @@
 [
     {
         "username": "mickeejsing",
-        "password":"losenord"
+        "password": "losenord"
     },
     {
         "username": "jenskofot",
-        "password":"kofot123"
+        "password": "kofot123"
     },
     {
         "username": "saga",
-        "password":"lanskrimmalmo"
+        "password": "lanskrimmalmo"
+    },
+    {
+        "username": "Admin",
+        "password": "Password"
     }
 ]

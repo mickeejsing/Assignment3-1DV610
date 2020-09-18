@@ -23,6 +23,8 @@ class App {
     private $dateTimeView;
     private $layoutView;
     private $controller;
+    private static $cookieName = 'LoginView::CookieName';
+	private static $cookiePassword = 'LoginView::CookiePassword';
 
     public function __construct () {
         //CREATE OBJECTS OF THE VIEWS
@@ -49,7 +51,7 @@ class App {
     public function renderOutput() {
         $loggedIn = false;
 
-        if ($_SESSION) { $loggedIn = true; }
+        if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) { $loggedIn = true; }
 
         $this->layoutView->render($loggedIn, $this->loginView, $this->dateTimeView, $this->registerView);
     }
