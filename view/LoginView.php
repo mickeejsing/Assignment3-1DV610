@@ -132,18 +132,22 @@ class LoginView {
 		$this->saveUserAferSubmit = $_POST[self::$name];
 	}
 
-	public function analyzeCredits($name, $password) {
+	public function userAuthorized($name, $password) {
 
 		$data = $this->loginModel->readFromJSON();
 
 		if($this->loginModel->validCredits($data, $name, $password)) {
-			$this->loginUser();
-		} else {
-			$this->setLoginMessage("Wrong name or password");
-		}
+
+			return true;
+
+		} 
+
+		$this->setLoginMessage("Wrong name or password");
+		return false;
+		
 	}
 
-	private function loginUser() {
+	public function loginUser() {
 		$this->loginModel->setSession();
 	}
 	

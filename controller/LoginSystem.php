@@ -25,9 +25,11 @@ class LoginSystem {
 				if ($this->loginView->isUserNameValid($credits[0])) {
 
 					if($this->loginView->isPassWordValid($credits[1])) {
-						
-						$this->loginView->analyzeCredits($credits[0], $credits[1]);
 
+						if($this->loginView->userAuthorized($credits[0], $credits[1])) {
+							
+							return 
+						} 
 					}
 
 				}

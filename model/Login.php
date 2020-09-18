@@ -39,6 +39,7 @@ class Login {
     }
 
     public function setSession () {
-        $_SESSION["online"] = "YES";
+        echo "Då vart du inloggad!";
+        // $_SESSION["online"] = "YES";
     }
 }
