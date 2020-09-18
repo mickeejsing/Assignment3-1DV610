@@ -78,10 +78,21 @@ class LoginView {
 	}
 	
 	//CREATE GET-FUNCTIONS TO FETCH REQUEST VARIABLES
-	public function getRequestUserName() {
+	public function getRequestUserName() : array {
 		//RETURN REQUEST VARIABLE: USERNAME
-		$name = $_POST[self::$name];
-		$password = $_POST[self::$password];
+
+		$credits = array();
+
+		$credits[] = $_POST[self::$name];
+		$credits[] = $_POST[self::$password];
+
+		return $credits;
+	}
+
+	public function handleInputFromForm($credits) {
+
+		$name = $credits[0];
+		$password = $credits[1];
 
 		if ($this->loginModel->isEmpty($name)) {
 
@@ -95,6 +106,8 @@ class LoginView {
 
 				$this->setLoginMessage("Password is missing");
 	
+			} else {
+				$this->analyzeCredits($name, $password);
 			}
 		}
 	}
@@ -111,6 +124,17 @@ class LoginView {
 
 	private function saveUserAferSubmit() {
 		$this->saveUserAferSubmit = $_POST[self::$name];
+	}
+
+	private function analyzeCredits($name, $password) {
+
+		$data = $this->loginModel->readFromJSON();
+
+		if($this->loginModel->validCredits($data, $name, $password)) {
+			$this->loginUser();
+		} else {
+			$this->setLoginMessage("Wrong name or password");
+		}
 	}
 	
 }

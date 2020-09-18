@@ -20,7 +20,10 @@ class LoginSystem {
 
 		if ($this->loginView->userWantsToLogin()) {
 			try {
-				$this->loginView->getRequestUserName();
+
+				$credits = $this->loginView->getRequestUserName();
+				$this->loginView->handleInputFromForm($credits);
+
 			} catch (\Exception $e) {
 				//$this->view->setNameWasTooShort();
 			}
