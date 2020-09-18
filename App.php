@@ -12,7 +12,7 @@ require_once('view/LayoutView.php');
 require_once('model/DateTime.php');
 require_once('model/Register.php');
 require_once('model/Login.php');
-require_once('model/User.php');
+// require_once('model/User.php');
 
 require_once('controller/LoginSystem.php');
 
@@ -23,7 +23,6 @@ class App {
     private $dateTimeView;
     private $layoutView;
     private $controller;
-    private $user;
 
     public function __construct () {
         //CREATE OBJECTS OF THE VIEWS
@@ -31,9 +30,9 @@ class App {
         $this->registerView = new RegisterView(new \model\Register());
         $this->dateTimeView = new DateTimeView(new \model\DateTime());
         $this->layoutView = new LayoutView();
-        $this->user = new \model\User();
+        // $this->user = new User();
 
-        $this->controller = new \controller\LoginSystem($this->layoutView, $this->loginView, $this->registerView, $this->user);
+        $this->controller = new \controller\LoginSystem($this->layoutView, $this->loginView, $this->registerView);
     }
 
     public function run () {
@@ -48,7 +47,11 @@ class App {
 	}
 
     public function renderOutput() {
-        $this->layoutView->render(false, $this->loginView, $this->dateTimeView, $this->registerView);
+        $loggedIn = false;
+
+        if ($_SESSION) { $loggedIn = true; }
+
+        $this->layoutView->render($loggedIn, $this->loginView, $this->dateTimeView, $this->registerView);
     }
 
 }

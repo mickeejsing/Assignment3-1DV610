@@ -6,6 +6,7 @@ class LayoutView {
   private static $register = "register";
   
   public function render($isLoggedIn, LoginView $lv, DateTimeView $dtv, RegisterView $rv) {
+    
     echo '<!DOCTYPE html>
       <html>
         <head>
@@ -14,7 +15,7 @@ class LayoutView {
         </head>
         <body>
           <h1>Assignment 2</h1>
-          ' . $this->getLink() . '
+          ' . $this->getLink($lv) . '
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
@@ -37,20 +38,22 @@ class LayoutView {
   }
 
   // Generates link.
-  private function getLink() {
+  private function getLink($lv) {
 
     if(isset($_GET[self::$register])) {
       return "<a href='?'>Back to login</a>";      
     } 
 
-    return "<a href='?register'>Register a new user</a>";
+    if(!$lv->loginModel->loggedIn()) {
+      return "<a href='?register'>Register a new user</a>";
+    }
   }
 
   private function showCurrentPage($lv, $rv) {
     if(isset($_GET[self::$register])) {
       return $rv->response();
     } 
-
+    
     return $lv->response();
   }
 }

@@ -7,13 +7,11 @@ class LoginSystem {
 	private $layoutView;
 	private $registerView;
 	private $loginView;
-	private $user;
 
-	public function __construct($layoutView, $loginView, $registerView, \Model\User $user) {
+	public function __construct($layoutView, $loginView, $registerView) {
         $this->layoutView = $layoutView;
 		$this->registerView = $registerView;
 		$this->loginView = $loginView;
-		$this->user = $user;
 	}
 
 	public function doLogin() {
@@ -29,8 +27,8 @@ class LoginSystem {
 
 						if($this->loginView->userAuthorized($credits[0], $credits[1])) {
 							
-							$this->user->setCredits($credits[0], $credits[1]);
-							echo $this->user->toString();
+							// $this->user->setCredits($credits[0], $credits[1]);
+							$this->loginView->loginUser($credits[0], $credits[1]);
 
 						} 
 					}

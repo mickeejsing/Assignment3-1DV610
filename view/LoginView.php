@@ -14,7 +14,7 @@ class LoginView {
 	public $loginMessage = '';
 	public $saveUserAferSubmit = '';
 
-	private $loginModel;
+	public $loginModel;
 
 	public function __construct (\model\Login $loginModel) {
 		$this->loginModel = $loginModel;
@@ -28,11 +28,18 @@ class LoginView {
 	 * @return  void BUT writes to standard output and cookies!
 	 */
 	public function response() {
-		$message = $this->loginMessage;
-		$saveUserAferSubmit = $this->saveUserAferSubmit;
-		
-		$response = $this->generateLoginFormHTML($message);
-		//$response .= $this->generateLogoutButtonHTML($message);
+
+		if (!$this->loginModel->loggedIn()) {
+
+			$message = $this->loginMessage;
+			$saveUserAferSubmit = $this->saveUserAferSubmit;
+			
+			$response = $this->generateLoginFormHTML($message);
+			
+		} else {
+			$message = "Welcome";
+			$response = $this->generateLogoutButtonHTML($message);
+		}
 		return $response;
 	}
 
@@ -147,8 +154,8 @@ class LoginView {
 		
 	}
 
-	public function loginUser() {
-		$this->loginModel->setSession();
+	public function loginUser($userName, $passWord) {
+		$this->loginModel->setSession($userName, $passWord);
 	}
 	
 }

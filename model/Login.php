@@ -5,11 +5,14 @@ namespace model;
 // Start session.
 session_start();
 
+require_once('model/User.php');
+
 class Login {
 
     private static $src = './database/credits.json';
     private static $userKey = "username";
     private static $passKey = "password";
+    private static $session = "user";
 
 
     public function isEmpty ($userName) {
@@ -38,8 +41,12 @@ class Login {
         return false;
     }
 
-    public function setSession () {
-        echo "Då vart du inloggad!";
-        // $_SESSION["online"] = "YES";
+    public function setSession ($userName, $passWord) {
+        $user = new \model\User($userName, $passWord);
+         $_SESSION[self::$session] = serialize($user);
+    }
+
+    public function loggedIn() {
+        return isset($_SESSION[self::$session]);
     }
 }

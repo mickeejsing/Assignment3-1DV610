@@ -7,7 +7,7 @@ class User {
     private $userName;
     private $passWord;
 
-    public function setCredits ($userName, $passWord) {
+    public function __construct ($userName, $passWord) {
 
         if (strlen($userName) < 3) {
             throw new \Exception("Username to short");
