@@ -2,6 +2,9 @@
 
 namespace model;
 
+// Start session.
+session_start();
+
 class Login {
 
     private static $src = './database/credits.json';
@@ -33,5 +36,9 @@ class Login {
         }
 
         return false;
+    }
+
+    public function setSession () {
+        $_SESSION["online"] = "YES";
     }
 }

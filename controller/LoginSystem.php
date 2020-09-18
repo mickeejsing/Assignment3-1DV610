@@ -5,13 +5,12 @@ namespace controller;
 class LoginSystem {
 
 	private $layoutView;
-	// private $registerView;
+	private $registerView;
 	private $loginView;
 	// private $user;
 
 	public function __construct($layoutView, $loginView, $registerView) {
         $this->layoutView = $layoutView;
-		
 		$this->registerView = $registerView;
 		$this->loginView = $loginView;
 	}
@@ -22,7 +21,16 @@ class LoginSystem {
 			try {
 
 				$credits = $this->loginView->getRequestUserName();
-				$this->loginView->handleInputFromForm($credits);
+
+				if ($this->loginView->isUserNameValid($credits[0])) {
+
+					if($this->loginView->isPassWordValid($credits[1])) {
+						
+						$this->loginView->analyzeCredits($credits[0], $credits[1]);
+
+					}
+
+				}
 
 			} catch (\Exception $e) {
 				//$this->view->setNameWasTooShort();

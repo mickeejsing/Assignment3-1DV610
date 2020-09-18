@@ -89,27 +89,33 @@ class LoginView {
 		return $credits;
 	}
 
-	public function handleInputFromForm($credits) {
+	public function isUserNameValid($userName) {
 
-		$name = $credits[0];
-		$password = $credits[1];
-
-		if ($this->loginModel->isEmpty($name)) {
+		if ($this->loginModel->isEmpty($userName)) {
 
 			$this->setLoginMessage("Username is missing");
 
-		} else {
+			return false;
 
-			$this->saveUserAferSubmit();
-
-			if ($this->loginModel->isEmpty($password)) {
-
-				$this->setLoginMessage("Password is missing");
-	
-			} else {
-				$this->analyzeCredits($name, $password);
-			}
 		}
+
+		return true;
+	}
+
+	public function isPassWordValid($password) {
+
+		$this->saveUserAferSubmit();
+
+		if ($this->loginModel->isEmpty($password)) {
+
+			$this->setLoginMessage("Password is missing");
+
+			return false;
+
+		} 
+
+		return true;
+		
 	}
 
 	public function userWantsToLogin() {
@@ -126,7 +132,7 @@ class LoginView {
 		$this->saveUserAferSubmit = $_POST[self::$name];
 	}
 
-	private function analyzeCredits($name, $password) {
+	public function analyzeCredits($name, $password) {
 
 		$data = $this->loginModel->readFromJSON();
 
@@ -135,6 +141,10 @@ class LoginView {
 		} else {
 			$this->setLoginMessage("Wrong name or password");
 		}
+	}
+
+	private function loginUser() {
+		$this->loginModel->setSession();
 	}
 	
 }

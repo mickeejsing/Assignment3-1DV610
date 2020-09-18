@@ -1,16 +1,19 @@
 <?php
 
-    //INCLUDE THE FILES NEEDED...
-    require_once('view/LoginView.php');
-    require_once('view/RegisterView.php');
-    require_once('view/DateTimeView.php');
-    require_once('view/LayoutView.php');
+// Start session.
+// session_start();
 
-    require_once('model/DateTime.php');
-    require_once('model/Register.php');
-    require_once('model/Login.php');
+//INCLUDE THE FILES NEEDED...
+require_once('view/LoginView.php');
+require_once('view/RegisterView.php');
+require_once('view/DateTimeView.php');
+require_once('view/LayoutView.php');
 
-    require_once('controller/LoginSystem.php');
+require_once('model/DateTime.php');
+require_once('model/Register.php');
+require_once('model/Login.php');
+
+require_once('controller/LoginSystem.php');
 
 class App {
 
