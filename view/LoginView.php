@@ -35,9 +35,12 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($message);
 			
 		} else {
+			
 			$message = "Welcome";
 			$response = $this->generateLogoutButtonHTML($message);
+			
 		}
+
 		return $response;
 	}
 

@@ -11,7 +11,7 @@ class DateTimeView {
 
 	public function show() {
 
-		$timeString = $this->serverTime->getDay() . ", the " . $this->serverTime->getIntDay() . "th of " . $this->serverTime->getMonth() . " " .$this->serverTime->getYear(). ", The time is " . $this->serverTime->getTime();
+		$timeString = $this->serverTime->getDay() . ", the " . $this->serverTime->getIntDay() .  $this->serverTime->getPrefix($this->serverTime->getIntDay()) . " of " . $this->serverTime->getMonth() . " " .$this->serverTime->getYear(). ", The time is " . $this->serverTime->getTime();
 
 		return '<p>' . $timeString . '</p>';
 	}

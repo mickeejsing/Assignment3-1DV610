@@ -49,9 +49,10 @@ class App {
 	}
 
     public function renderOutput() {
+        
         $loggedIn = false;
 
-        if (isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) { $loggedIn = true; }
+        if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])) { $loggedIn = true; }
 
         $this->layoutView->render($loggedIn, $this->loginView, $this->dateTimeView, $this->registerView);
     }

@@ -40,6 +40,7 @@ class Login {
     }
 
     public function setCookie ($userName, $passWord) {
+
         $nameCookie1 = self::$cookieName;
         $valueUser = $userName;
 
@@ -49,9 +50,15 @@ class Login {
         $valuePassword = $passWord;
 
         setcookie($nameCookie2, $valuePassword, time() + (86400 * 30), "/");
+
+        // header("Refresh:0");
     }
 
     public function loggedIn() {
         return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
+    }
+
+    public function renderIndex() {
+        echo "Nu ska man loggas in!";
     }
 }
