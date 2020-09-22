@@ -91,8 +91,16 @@ class LoginView {
 
 		$credits = array();
 
-		$credits[] = $_POST[self::$name];
-		$credits[] = $_POST[self::$password];
+		$credits[] = trim($_POST[self::$name]);
+		$credits[] = trim($_POST[self::$password]);
+
+		if (isset( $_POST[self::$keep])) { 
+
+			$credits[] = $_POST[self::$keep];
+
+		} else {
+			$credits[] = false;
+		}
 
 		return $credits;
 	}
@@ -155,8 +163,8 @@ class LoginView {
 		
 	}
 
-	public function loginUser($userName, $passWord) {
-		$this->loginModel->setCookie($userName, $passWord);
+	public function loginUser($userName, $passWord, $keepLoggedIn) {
+		$this->loginModel->setLogin($userName, $passWord, $keepLoggedIn);
 	}
 	
 }

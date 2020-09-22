@@ -17,6 +17,7 @@ class LoginSystem {
 	public function doLogin() {
 
 		if ($this->loginView->userWantsToLogin()) {
+
 			try {
 
 				$credits = $this->loginView->getRequestUserName();
@@ -27,8 +28,7 @@ class LoginSystem {
 
 						if($this->loginView->userAuthorized($credits[0], $credits[1])) {
 							
-							// $this->user->setCredits($credits[0], $credits[1]);
-							$this->loginView->loginUser($credits[0], $credits[1]);
+							$this->loginView->loginUser($credits[0], $credits[1], $credits[2]);
 
 						} 
 					}
@@ -45,6 +45,7 @@ class LoginSystem {
 	public function doRegister() {
 
 		if ($this->registerView->userWantsToRegister()) {
+
 			try {
 				$this->registerView->getRequestUserName();
 			} catch (\Exception $e) {

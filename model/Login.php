@@ -10,7 +10,8 @@ class Login {
     private static $userKey = "username";
     private static $passKey = "password";
     private static $cookieName = 'LoginView::CookieName';
-	private static $cookiePassword = 'LoginView::CookiePassword';
+    private static $cookiePassword = 'LoginView::CookiePassword';
+    public $loggedIn;
 
 
     public function isEmpty ($userName) {
@@ -40,7 +41,6 @@ class Login {
     }
 
     public function setCookie ($userName, $passWord) {
-
         $nameCookie1 = self::$cookieName;
         $valueUser = $userName;
 
@@ -50,15 +50,28 @@ class Login {
         $valuePassword = $passWord;
 
         setcookie($nameCookie2, $valuePassword, time() + (86400 * 30), "/");
-
-        // header("Refresh:0");
     }
 
     public function loggedIn() {
+        if($this->loggedIn == true) {
+            return true;
+        } else if ($this->loggedInByCookie()) {
+            return true;
+        }
+    }
+
+    public function loggedInByCookie() {
         return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 
-    public function renderIndex() {
-        echo "Nu ska man loggas in!";
+    public function setLogin($userName, $passWord, $keepLoggedIn) {
+
+        $this->loggedIn = true;
+        
+
+        if ($keepLoggedIn == 'on') {
+            $this->setCookie($userName, $passWord);
+        }
+
     }
 }

@@ -25,8 +25,8 @@ class DateTime {
     }
 
     public function getPrefix ($number) : string {
-        $dateLength = strlen($number);
 
+        $dateLength = strlen($number);
         if ($dateLength == 1 || $dateLength == 2 && $number > 20) {
             
             // Minus 1 to get index of number in int. 
