@@ -46,12 +46,12 @@ class Login {
         $nameCookie1 = self::$cookieName;
         $valueUser = $userName;
 
-        setcookie($nameCookie1, $valueUser, time() + (86400 * 30), "/");
+        setcookie($nameCookie1, $valueUser, time() + 3600, '/');
 
         $nameCookie2 = self::$cookiePassword;
         $valuePassword = $passWord;
 
-        setcookie($nameCookie2, $valuePassword, time() + (86400 * 30), "/");
+        setcookie($nameCookie2, $valuePassword, time() + 3600, '/');
     }
 
     public function loggedIn() {
@@ -59,7 +59,9 @@ class Login {
             return true;
         } else if ($this->loggedInByCookie()) {
             return true;
-        }
+        } else if (isset($_SESSION[self::$sessionUser])) {
+            return true;
+        }   
     }
 
     public function loggedInByCookie() {
@@ -80,5 +82,13 @@ class Login {
 
     private function setLoginSession() {
         $_SESSION[self::$sessionUser] = true;
+    }
+
+    public function deleteCookies() {
+        
+        setcookie(self::$cookieName, "", time() - 3600, '/');
+        setcookie(self::$cookiePassword, "", time() - 3600, '/');
+
+        header("Refresh:0");
     }
 }

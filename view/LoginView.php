@@ -7,6 +7,8 @@ class LoginView {
 	private static $password = 'LoginView::Password';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $cookieName = 'LoginView::CookieName';
+    private static $cookiePassword = 'LoginView::CookiePassword';
 
 	private static $sessionUser = 'sessionUser';
 	private static $reloadPage = 'reload';
@@ -191,6 +193,10 @@ class LoginView {
 	public function destroySessions () {
 		unset($_SESSION[self::$sessionUser]);
 		unset($_SESSION[self::$reloadPage]);
+
+		if (isset($_COOKIE[self::$cookieName])) {
+			$this->loginModel->deleteCookies();
+		}
 	}
 
 	public function reload () {
