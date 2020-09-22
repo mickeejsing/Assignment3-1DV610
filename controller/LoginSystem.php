@@ -51,6 +51,7 @@ class LoginSystem {
 			try {
 
 				$this->loginView->setLogoutMessage();
+				$this->loginView->destroySessions();
 
 			} catch (\Exception $e) {
 				//$this->view->setNameWasTooShort();

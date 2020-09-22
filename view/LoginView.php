@@ -7,7 +7,10 @@ class LoginView {
 	private static $password = 'LoginView::Password';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-	
+
+	private static $sessionUser = 'sessionUser';
+	private static $reloadPage = 'reload';
+
 	public $loginMessage = '';
 	public $saveUserAferSubmit = '';
 
@@ -34,8 +37,13 @@ class LoginView {
 			$response = $this->generateLoginFormHTML($message);
 			
 		} else {
-			
-			$message = "Welcome";
+
+			if($this->reload()) {
+				$message = "";
+			} else {
+				$message = "Welcome";
+			}
+
 			$response = $this->generateLogoutButtonHTML($message);
 			
 		}
@@ -174,6 +182,25 @@ class LoginView {
 	}
 
 	public function setLogoutMessage() {
-		$this->setLoginMessage("Bye bye!");
+		
+		if (isset($_SESSION[self::$sessionUser])) {
+			$this->setLoginMessage("Bye bye!");
+		}
+	}
+
+	public function destroySessions () {
+		unset($_SESSION[self::$sessionUser]);
+		unset($_SESSION[self::$reloadPage]);
+	}
+
+	public function reload () {
+		if(isset($_SESSION[self::$reloadPage])) {
+			return true;
+		}
+		
+		$_SESSION[self::$reloadPage] = false;
+
+		return false;
+		
 	}
 }
