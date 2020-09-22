@@ -91,6 +91,7 @@ class LoginView {
 
 		$credits = array();
 
+		// TODO: LÄGG TRIM I MODELLEN.
 		$credits[] = trim($_POST[self::$name]);
 		$credits[] = trim($_POST[self::$password]);
 
@@ -139,6 +140,12 @@ class LoginView {
 			return true;
 		}
 	}
+
+	public function userWantsToLogout() {
+		if(isset($_POST[self::$logout])) {
+			return true;
+		}
+	}
 	
 	public function setLoginMessage($msg) {
 		$this->loginMessage.= $msg;
@@ -166,5 +173,8 @@ class LoginView {
 	public function loginUser($userName, $passWord, $keepLoggedIn) {
 		$this->loginModel->setLogin($userName, $passWord, $keepLoggedIn);
 	}
-	
+
+	public function setLogoutMessage() {
+		$this->setLoginMessage("Bye bye!");
+	}
 }

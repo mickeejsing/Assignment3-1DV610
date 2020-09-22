@@ -42,6 +42,20 @@ class LoginSystem {
 
 	}
 
+	public function doLogout() {
+
+		if ($this->loginView->userWantsToLogout()) {
+
+			try {
+
+				$this->loginView->setLogoutMessage();
+
+			} catch (\Exception $e) {
+				//$this->view->setNameWasTooShort();
+			}
+		}
+	}
+
 	public function doRegister() {
 
 		if ($this->registerView->userWantsToRegister()) {

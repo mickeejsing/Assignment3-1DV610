@@ -1,7 +1,7 @@
 <?php
 
 // Start session.
-// session_start();
+session_start();
 
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
@@ -43,6 +43,7 @@ class App {
     private function changeOfState() {
         $this->controller->doRegister();
         $this->controller->doLogin();
+        $this->controller->doLogout();
 		// $this->storage->saveUser($this->user);
 	}
 
