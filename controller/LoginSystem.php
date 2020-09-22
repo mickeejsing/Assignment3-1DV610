@@ -8,6 +8,8 @@ class LoginSystem {
 	private $registerView;
 	private $loginView;
 
+	private static $sessionUser = 'sessionUser';
+
 	public function __construct($layoutView, $loginView, $registerView) {
         $this->layoutView = $layoutView;
 		$this->registerView = $registerView;
@@ -44,7 +46,7 @@ class LoginSystem {
 
 	public function doLogout() {
 
-		if ($this->loginView->userWantsToLogout()) {
+		if ($this->loginView->userWantsToLogout() && isset($_SESSION[self::$sessionUser])) {
 
 			try {
 

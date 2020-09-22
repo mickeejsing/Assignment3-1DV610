@@ -11,6 +11,8 @@ class Login {
     private static $passKey = "password";
     private static $cookieName = 'LoginView::CookieName';
     private static $cookiePassword = 'LoginView::CookiePassword';
+    private static $sessionUser = 'sessionUser';
+    
     public $loggedIn;
 
 
@@ -68,10 +70,15 @@ class Login {
 
         $this->loggedIn = true;
         
+        $this->setLoginSession();
 
         if ($keepLoggedIn == 'on') {
             $this->setCookie($userName, $passWord);
         }
 
+    }
+
+    private function setLoginSession() {
+        $_SESSION[self::$sessionUser] = true;
     }
 }

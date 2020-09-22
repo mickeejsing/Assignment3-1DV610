@@ -8,7 +8,6 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	
-
 	public $loginMessage = '';
 	public $saveUserAferSubmit = '';
 
