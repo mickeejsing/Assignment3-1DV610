@@ -8,7 +8,7 @@ class LayoutView {
   public function render($isLoggedIn, LoginView $lv, DateTimeView $dtv, RegisterView $rv) {
     
     echo '<!DOCTYPE html>
-      <html>
+      <html lang="en">
         <head>
           <meta charset="utf-8">
           <title>Login Example</title>
