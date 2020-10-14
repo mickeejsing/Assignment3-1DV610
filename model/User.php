@@ -6,6 +6,7 @@ class User {
 
     private $userName;
     private $passWord;
+    private $keepLoggedIn;
 
     public function __construct ($userName, $passWord) {
 
@@ -21,8 +22,19 @@ class User {
         $this->passWord = $passWord; 
     }
 
-    public function toString () {
-        return $this->userName . ' ' . $this->passWord;
+    public function setKeepLoggedIn($value) {
+        $this->keepLoggedIn = $value; 
     }
 
+    public function getName() {
+        return $this->userName;
+    }
+
+    public function getPassword() {
+        return $this->passWord;
+    }
+
+    public function getKeepLoggedin() {
+        return $this->keepLoggedIn;
+    }
 }

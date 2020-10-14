@@ -16,8 +16,8 @@ class Login {
     public $loggedIn;
 
 
-    public function isEmpty ($userName) {
-        if(strlen($userName) == 0) {
+    public function isEmpty(string $credit) {
+        if(strlen($credit) == 0) {
             return true;
         }
 

@@ -22,19 +22,19 @@ class LoginSystem {
 
 			try {
 
-				$credits = $this->loginView->getRequestUserName();
+				$user = $this->loginView->getRequestUserName();
 
-				if ($this->loginView->isUserNameValid($credits[0])) {
+				if ($this->loginView->isUserNameValid($user->GetName())) {
+					
 
-					if($this->loginView->isPassWordValid($credits[1])) {
+					if($this->loginView->isPassWordValid($user->getPassword())) {
 
-						if($this->loginView->userAuthorized($credits[0], $credits[1])) {
+						if($this->loginView->userAuthorized($user)) {
 							
-							$this->loginView->loginUser($credits[0], $credits[1], $credits[2]);
+							$this->loginView->loginUser($user);
 
 						} 
-					}
-
+					} 
 				}
 
 			} catch (\Exception $e) {
