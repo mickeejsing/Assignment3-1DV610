@@ -2,6 +2,7 @@
 
 require_once('model/User.php');
 
+
 class LoginView {
 	private static $login = 'LoginView::Login';
 	private static $logout = 'LoginView::Logout';
@@ -24,6 +25,13 @@ class LoginView {
 		$this->loginModel = $loginModel;
 	}
 
+	/**
+	 * Create HTTP response
+	 *
+	 * Should be called after a login attempt has been determined
+	 *
+	 * @return  void BUT writes to standard output and cookies!
+	 */
 	public function response() {
 
 		if (!$this->loginModel->loggedIn()) {
@@ -48,6 +56,11 @@ class LoginView {
 		return $response;
 	}
 
+	/**
+	* Generate HTML code on the output buffer for the logout button
+	* @param $message, String output message
+	* @return  void, BUT writes to standard output!
+	*/
 	private function generateLogoutButtonHTML($message) {
 		return '
 			<form  method="post" >
@@ -57,6 +70,11 @@ class LoginView {
 		';
 	}
 	
+	/**
+	* Generate HTML code on the output buffer for the logout button
+	* @param $message, String output message
+	* @return  void, BUT writes to standard output!
+	*/
 	private function generateLoginFormHTML($message) {
 		return '
 			<form method="post" > 
@@ -79,24 +97,27 @@ class LoginView {
 		';
 	}
 	
-	public function getRequestUserName() : \model\User {
+	public function getRequestCredits() : \model\User {
 
-		$user = new \model\User(trim($_POST[self::$name]), trim($_POST[self::$password]));
+		$user = new \model\User();
+
+		$user->setUsername(trim($_POST[self::$name]));
+		$user->setPassword(trim($_POST[self::$password]));
 
 		if (isset( $_POST[self::$keep])) { 
 
-			$user->setKeepLoggedIn($_POST[self::$keep]);
+			$user->SetKeepLoggedIn($_POST[self::$keep]);
 
 		} else {
-			$user->setKeepLoggedIn(false);
+			$user->SetKeepLoggedIn(false);
 		}
 
 		return $user;
 	}
 
-	public function isUserNameValid(string $name) {
+	public function isUserNameValid($userName) {
 
-		if ($this->loginModel->isEmpty($name)) {
+		if ($this->loginModel->isEmpty($userName)) {
 
 			$this->setLoginMessage("Username is missing");
 
@@ -116,10 +137,10 @@ class LoginView {
 			$this->setLoginMessage("Password is missing");
 
 			return false;
+
 		} 
 
 		return true;
-		
 	}
 
 	public function userWantsToLogin() {
@@ -142,23 +163,20 @@ class LoginView {
 		$this->saveUserAferSubmit = $_POST[self::$name];
 	}
 
-	public function userAuthorized(\model\User $user) {
+	public function userAuthorized(\model\User $user) : bool {
 
 		$data = $this->loginModel->readFromJSON();
 
-		if($this->loginModel->validCredits($data, $user->getName(), $user->getPassword())) {
-
+		if($this->loginModel->validCredits($data, $user->getUserName(), $user->getPassword())) {
 			return true;
-
 		} 
 
 		$this->setLoginMessage("Wrong name or password");
 		return false;
-		
 	}
 
 	public function loginUser(\model\User $user) {
-		$this->loginModel->setLogin($user->getName(), $user->getPassWord(), $user->getKeepLoggedin());
+		$this->loginModel->setLogin($user);
 	}
 
 	public function setLogoutMessage() {
@@ -185,6 +203,5 @@ class LoginView {
 		$_SESSION[self::$reloadPage] = false;
 
 		return false;
-		
 	}
 }

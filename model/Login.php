@@ -16,8 +16,8 @@ class Login {
     public $loggedIn;
 
 
-    public function isEmpty(string $credit) {
-        if(strlen($credit) == 0) {
+    public function isEmpty ($userName) {
+        if(strlen($userName) == 0) {
             return true;
         }
 
@@ -42,16 +42,11 @@ class Login {
         return false;
     }
 
-    public function setCookie ($userName, $passWord) {
-        $nameCookie1 = self::$cookieName;
-        $valueUser = $userName;
+    public function setCookieFunction (\model\User $user) {
 
-        setcookie($nameCookie1, $valueUser, time() + 3600, '/');
-
-        $nameCookie2 = self::$cookiePassword;
-        $valuePassword = $passWord;
-
-        setcookie($nameCookie2, $valuePassword, time() + 3600, '/');
+        setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
+        setcookie($self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
+        
     }
 
     public function loggedIn() {
@@ -68,14 +63,14 @@ class Login {
         return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 
-    public function setLogin($userName, $passWord, $keepLoggedIn) {
+    public function setLogin(\model\User $user) {
 
         $this->loggedIn = true;
         
         $this->setLoginSession();
 
-        if ($keepLoggedIn == 'on') {
-            $this->setCookie($userName, $passWord);
+        if ($user->getKeepLoggedIn() == 'on') {
+            $this->setCookie($user);
         }
 
     }

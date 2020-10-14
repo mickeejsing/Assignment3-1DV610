@@ -22,10 +22,9 @@ class LoginSystem {
 
 			try {
 
-				$user = $this->loginView->getRequestUserName();
+				$user = $this->loginView->getRequestCredits();
 
-				if ($this->loginView->isUserNameValid($user->GetName())) {
-					
+				if ($this->loginView->isUserNameValid($user->getUsername())) {
 
 					if($this->loginView->isPassWordValid($user->getPassword())) {
 
@@ -34,7 +33,8 @@ class LoginSystem {
 							$this->loginView->loginUser($user);
 
 						} 
-					} 
+					}
+
 				}
 
 			} catch (\Exception $e) {

@@ -3,38 +3,32 @@
 namespace model;
 
 class User {
-
-    private $userName;
-    private $passWord;
+    private $username;
+    private $password;
     private $keepLoggedIn;
+    
+    public function setUsername($name) {
+        $this->username = $name;
+    }
 
-    public function __construct ($userName, $passWord) {
+    public function getUsername() {
+        return $this->username;
+    }
 
-        if (strlen($userName) < 3) {
-            throw new \Exception("Username to short");
-        }
+    public function setPassword($password) {
+        $this->password = $password;
+    }
 
-        if (strlen($passWord) < 3) {
-            throw new \Exception("Password to short");
-        }
-
-        $this->userName = $userName;
-        $this->passWord = $passWord; 
+    
+    public function getPassword() {
+        return $this->password;
     }
 
     public function setKeepLoggedIn($value) {
-        $this->keepLoggedIn = $value; 
+        $this->keepLoggedIn = $value;
     }
 
-    public function getName() {
-        return $this->userName;
-    }
-
-    public function getPassword() {
-        return $this->passWord;
-    }
-
-    public function getKeepLoggedin() {
+    public function getKeepLoggedIn() {
         return $this->keepLoggedIn;
     }
 }

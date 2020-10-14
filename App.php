@@ -12,7 +12,6 @@ require_once('view/LayoutView.php');
 require_once('model/DateTime.php');
 require_once('model/Register.php');
 require_once('model/Login.php');
-// require_once('model/User.php');
 
 require_once('controller/LoginSystem.php');
 
