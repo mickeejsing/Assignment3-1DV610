@@ -2,7 +2,7 @@
 
 namespace controller;
 
-class LoginSystem {
+class Controller {
 
 	private $layoutView;
 	private $registerView;
@@ -64,9 +64,13 @@ class LoginSystem {
 		if ($this->registerView->userWantsToRegister()) {
 
 			try {
-				$this->registerView->getRequestUserName();
+				$user = $this->registerView->getRequestCredits();
+				$this->registerView->validateUser($user);
+
+				$this->registerView->registerModel->saveUser($user);
+
 			} catch (\Exception $e) {
-				//$this->view->setNameWasTooShort();
+				$this->registerView->setRegistrationMessage($e->getMessage());
 			}
 		}
 

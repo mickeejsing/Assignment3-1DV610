@@ -6,6 +6,7 @@ class User {
     private $username;
     private $password;
     private $keepLoggedIn;
+    private $passwordRepeat;
     
     public function setUsername($name) {
         $this->username = $name;
@@ -19,7 +20,6 @@ class User {
         $this->password = $password;
     }
 
-    
     public function getPassword() {
         return $this->password;
     }
@@ -30,5 +30,13 @@ class User {
 
     public function getKeepLoggedIn() {
         return $this->keepLoggedIn;
+    }
+
+    public function setPasswordRepeat($value) {
+        $this->passwordRepeat = $value;
+    }
+
+    public function getPasswordRepeat() {
+        return $this->passwordRepeat;
     }
 }

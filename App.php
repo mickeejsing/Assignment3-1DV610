@@ -13,7 +13,7 @@ require_once('model/DateTime.php');
 require_once('model/Register.php');
 require_once('model/Login.php');
 
-require_once('controller/LoginSystem.php');
+require_once('controller/Controller.php');
 
 class App {
 
@@ -31,7 +31,7 @@ class App {
         $this->layoutView = new LayoutView();
         // $this->user = new User();
 
-        $this->controller = new \controller\LoginSystem($this->layoutView, $this->loginView, $this->registerView);
+        $this->controller = new \controller\Controller($this->layoutView, $this->loginView, $this->registerView);
     }
 
     public function run () {

@@ -34,7 +34,7 @@ class Login {
     public function validCredits($data, $userName, $passWord) {
 
         foreach ($data as $user) {
-            if($user[self::$userKey] == $userName && $user[self::$passKey] == $passWord) {
+            if($user[self::$userKey] == $userName && $user[self::$passKey] == sha1(htmlentities(trim($passWord)))) {
                 return true;
             }
         }
@@ -42,10 +42,10 @@ class Login {
         return false;
     }
 
-    public function setCookieFunction (\model\User $user) {
+    public function setCookie (\model\User $user) {
 
         setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
-        setcookie($self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
+        setcookie(self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
         
     }
 
