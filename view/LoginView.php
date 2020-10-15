@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 require_once('model/User.php');
 
 
@@ -64,8 +66,8 @@ class LoginView {
 	private function generateLogoutButtonHTML($message) {
 		return '
 			<form  method="post" >
-				<p id="' . self::$messageId . '">' . $message .'</p>
-				<input type="submit" name="' . self::$logout . '" value="logout"/>
+				<p class="msg" id="' . self::$messageId . '">' . $message .'</p>
+				<input type="submit" name="' . self::$logout . '" value="Logout" id="logout"/>
 			</form>
 		';
 	}
@@ -91,7 +93,7 @@ class LoginView {
 					<label for="' . self::$keep . '">Keep me logged in  :</label>
 					<input type="checkbox" id="' . self::$keep . '" name="' . self::$keep . '" />
 					
-					<input type="submit" name="' . self::$login . '" value="login" />
+					<input type="submit" name="' . self::$login . '" value="Login" id="btn"/>
 				</fieldset>
 			</form>
 		';

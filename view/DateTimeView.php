@@ -1,5 +1,8 @@
 <?php
-date_default_timezone_set("Europe/Stockholm");  
+
+namespace view;
+
+date_default_timezone_set("Europe/Stockholm");
 
 class DateTimeView {
 
@@ -13,6 +16,6 @@ class DateTimeView {
 
 		$timeString = $this->serverTime->getDay() . ", the " . $this->serverTime->getIntDay() .  $this->serverTime->getPrefix($this->serverTime->getIntDay()) . " of " . $this->serverTime->getMonth() . " " .$this->serverTime->getYear(). ", The time is " . $this->serverTime->getTime();
 
-		return '<p>' . $timeString . '</p>';
+		return '<p id="dtv">' . $timeString . '</p>';
 	}
 }

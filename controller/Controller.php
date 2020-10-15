@@ -7,13 +7,15 @@ class Controller {
 	private $layoutView;
 	private $registerView;
 	private $loginView;
+	private $mailView;
 
 	private static $sessionUser = 'sessionUser';
 
-	public function __construct($layoutView, $loginView, $registerView) {
+	public function __construct($layoutView, $loginView, $registerView, $mailView) {
         $this->layoutView = $layoutView;
 		$this->registerView = $registerView;
 		$this->loginView = $loginView;
+		$this->mailView = $mailView;
 	}
 
 	public function doLogin() {
@@ -74,5 +76,11 @@ class Controller {
 			}
 		}
 
+	}
+
+	public function doMail() {
+		if ($this->mailView->wantsToSendMail()) {
+			echo "DU VILL MAILA JAHA";
+		}
 	}
 }

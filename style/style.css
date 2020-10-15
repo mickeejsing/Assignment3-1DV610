@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap');
+
+html, body {
+    margin: 0px;
+}
+
+#wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+header {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    text-align: center;
+}
+
+header a {
+    color: black;
+}
+
+.container {
+    width: 70%;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+input[type=text], input[type=password], input[type=text], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+textarea {
+    height: 150px;
+}
+
+#btn {
+    width: 100%;
+    padding: 10px;
+    background-color: black;
+    color: white;
+    margin-top: 10px;
+    border: none;
+}
+
+#logout {
+    background-color: white;
+    border: none;
+    float: right;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#logout:focus {
+    outline: none;
+}
+
+#logout:hover {
+    cursor: pointer;
+}
+
+legend {
+    display: none;
+}
+
+.msg {
+    text-align: center;
+    margin: 0px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    text-align: center;
+}
+
+h2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #5c5c5c;
+}
+
+#dtv {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 14px;
+}

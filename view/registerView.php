@@ -1,5 +1,7 @@
 <?php
 
+namespace view;
+
 class RegisterView {
 	private static $message = 'RegisterView::Message';
 	private static $userName = 'RegisterView::UserName';
@@ -33,15 +35,15 @@ class RegisterView {
 			<legend>Register a new user - Write username and password</legend>
 				<p id="RegisterView::Message">' . $message . '</p>
 				<label for="RegisterView::UserName" >Username :</label>
-				<input type="text" size="20" name="RegisterView::UserName" id="RegisterView::UserName" value="" />
+				<input type="text" size="20" name="RegisterView::UserName" id="RegisterView::UserName" value="' . $this->writeValue(self::$userName) . '" />
 				<br/>
 				<label for="RegisterView::Password" >Password  :</label>
-				<input type="password" size="20" name="RegisterView::Password" id="RegisterView::Password" value="" />
+				<input type="password" size="20" name="RegisterView::Password" id="RegisterView::Password" value="' . $this->writeValue(self::$password) . '" />
 				<br/>
 				<label for="RegisterView::PasswordRepeat" >Repeat password  :</label>
-				<input type="password" size="20" name="RegisterView::PasswordRepeat" id="RegisterView::PasswordRepeat" value="" />
+				<input type="password" size="20" name="RegisterView::PasswordRepeat" id="RegisterView::PasswordRepeat" value="' . $this->writeValue(self::$passwordRepeat) . '" />
 				<br/>
-				<input id="submit" type="submit" name="DoRegistration"  value="Register" />
+				<input id="RegisterView::Register" type="submit" name="RegisterView::Register" value="Register">
 				<br/>
 			</fieldset>
 		</form>
@@ -94,6 +96,14 @@ class RegisterView {
 	
 	public function setRegistrationMessage($msg) {
 		$this->registrationMessage.= $msg;
+	}
+
+	public function writeValue($value) {
+		if(isset($_POST[$value])) {
+			return $_POST[$value];
+		}
+
+		return "";
 	}
 	
 }

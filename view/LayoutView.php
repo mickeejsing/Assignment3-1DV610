@@ -1,30 +1,35 @@
 <?php
 
+namespace view;
 
 class LayoutView {
 
   private static $register = "register";
   
-  public function render($isLoggedIn, LoginView $lv, DateTimeView $dtv, RegisterView $rv) {
+  public function render($isLoggedIn, LoginView $lv, DateTimeView $dtv, RegisterView $rv, MailView $mv) {
     
     echo '<!DOCTYPE html>
-      <html lang="en">
-        <head>
-          <meta charset="utf-8">
-          <title>Login Example</title>
-        </head>
-        <body>
-          <h1>Assignment 3</h1>
-          ' . $this->getLink($lv) . '
-          ' . $this->renderIsLoggedIn($isLoggedIn) . '
-          
-          <div class="container">
-              ' . $this->ShowCurrentPage($lv, $rv) . '
-              
-              ' . $dtv->show() . '
-          </div>
-         </body>
-      </html>
+          <html lang="en">
+            <head>
+              <meta charset="utf-8">
+              <title>Login Example</title>
+              <link rel="stylesheet" href="style/style.css">
+            </head>
+            <body>
+              <header>
+                <h1>Assignment 3</h1>
+                ' . $this->getLink($lv) . '
+                ' . $this->renderIsLoggedIn($isLoggedIn) . '
+              </header>
+              <div id="wrapper">
+                <div class="container">
+                ' . $this->ShowCurrentPage($lv, $rv, $mv) . '
+
+                ' . $dtv->show() . '
+                </div>
+              </div>
+            </body>
+          </html>
     ';
   }
   
@@ -49,11 +54,15 @@ class LayoutView {
     }
   }
 
-  private function showCurrentPage($lv, $rv) {
+  private function showCurrentPage($lv, $rv, $mv) {
     if(isset($_GET[self::$register])) {
       return $rv->response();
     } 
     
-    return $lv->response();
+    if($lv->loginModel->loggedIn()) {
+      return $lv->response() . $mv->returnMailForm();
+    } else {
+      return $lv->response();
+    }
   }
 }
