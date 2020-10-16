@@ -6,12 +6,24 @@ class Mail {
 
     private $mail;
 
-    public function wantsToSendMail() {
-
+    public function isMailValid(string $mail) {
+        if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
+            return true;
+        }
+        
+        return false;
     }
 
-    public function validateMail() {
-        
+    public function isEmpty($value) {
+        if(strlen($value) == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function sendMail (object $mail) {
+        mail($mail->sendTo,$mail->title,$mail->msg);
     }
 
 }

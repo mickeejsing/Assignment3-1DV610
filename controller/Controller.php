@@ -80,7 +80,13 @@ class Controller {
 
 	public function doMail() {
 		if ($this->mailView->wantsToSendMail()) {
-			echo "DU VILL MAILA JAHA";
+
+			try {
+				$mailData = $this->mailView->verifyCredits();
+				$this->mailView->formatAndSend($mailData);
+			} catch (\Exception $e) {
+				$this->mailView->setErrorMessage($e->getMessage());
+			}
 		}
 	}
 }
