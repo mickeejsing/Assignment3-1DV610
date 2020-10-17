@@ -16,8 +16,10 @@ header {
     text-align: center;
 }
 
-header a {
+#navigate {
     color: black;
+    display: block;
+    text-align: center;
 }
 
 .container {
@@ -84,6 +86,7 @@ h2 {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 12px;
     color: #5c5c5c;
+    text-align: center;
 }
 
 #dtv {
@@ -120,4 +123,8 @@ h2 {
     font-family: Arial, Helvetica, sans-serif;
     color: #33473b;
     text-align: center;
+}
+
+#morse {
+    font-family: Arial, Helvetica, sans-serif;
 }

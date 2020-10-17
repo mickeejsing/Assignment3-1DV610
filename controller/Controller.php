@@ -84,6 +84,10 @@ class Controller {
 			try {
 				$mailData = $this->mailView->verifyCredits();
 
+				if($mailData->morse) {
+					$mailData->msg = $this->mailView->stringToMorse($mailData->msg);
+				}
+
 				if($this->mailView->formatAndSend($mailData)) {
 					$this->mailView->setSuccessMessage();
 				}

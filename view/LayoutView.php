@@ -16,11 +16,11 @@ class LayoutView {
               <link rel="stylesheet" href="style/style.css">
             </head>
             <body>
-              <header>
-                <h1>Assignment 3</h1>
-                ' . $this->getLink($lv) . '
-                ' . $this->renderIsLoggedIn($isLoggedIn) . '
-              </header>
+              
+              <h1>Assignment 3</h1>
+              ' . $this->getLink($lv) . '
+              ' . $this->renderIsLoggedIn($isLoggedIn) . '
+            
               <div id="wrapper">
                 <div class="container">
                 ' . $this->ShowCurrentPage($lv, $rv, $mv) . '
@@ -46,11 +46,11 @@ class LayoutView {
   private function getLink($lv) {
 
     if(isset($_GET[self::$register])) {
-      return "<a href='?'>Back to login</a>";      
+      return "<a id='navigate' href='?'>Back to login</a>";      
     } 
 
     if(!$lv->loginModel->loggedIn()) {
-      return "<a href='?register'>Register a new user</a>";
+      return "<a id='navigate' href='?register'>Register a new user</a>";
     }
   }
 
