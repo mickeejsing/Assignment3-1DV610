@@ -83,7 +83,11 @@ class Controller {
 
 			try {
 				$mailData = $this->mailView->verifyCredits();
-				$this->mailView->formatAndSend($mailData);
+
+				if($this->mailView->formatAndSend($mailData)) {
+					$this->mailView->setSuccessMessage();
+				}
+				
 			} catch (\Exception $e) {
 				$this->mailView->setErrorMessage($e->getMessage());
 			}

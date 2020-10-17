@@ -8,14 +8,15 @@ class MailView {
     private $sendFrom;
     private $message;
     private $title;
-    private $errorMsg = "";
-    private $styleMsgID = "";
+    private $stateMsg = "";
+    private $stateStyle = "";
 
     private $mailModel;
 
     private static $mailReference = "mail";
     private static $titleReference = "title";
     private static $sendToReference = "sendTo";
+    private static $sendFromReference = "sendFrom";
 
     public function __construct (\model\Mail $mailModel) {
 		$this->mailModel = $mailModel;
@@ -31,8 +32,9 @@ class MailView {
 
     public function returnMailForm() {
         return '<form method="post" action=""> 
-                    <div id="' . $this->styleMsgID . '"><p>' . $this->errorMsg . '</p></div>
+                    <div id="' . $this->stateStyle . '"><p>' . $this->stateMsg . '</p></div>
                     <input type="text" name="title" placeholder="Enter your title">
+                    <input type="text" name="sendFrom" placeholder="Sent from email">
                     <input type="text" name="sendTo" placeholder="Sent to email">
                     <textarea name="mail" placeholder="Enter your message"></textarea>
                     <input type="submit"  value="Send mail" id="btn" >
@@ -46,6 +48,7 @@ class MailView {
         $obj->title = $_POST[self::$titleReference];
         $obj->msg = $_POST[self::$mailReference];
         $obj->sendTo = $_POST[self::$sendToReference];
+        $obj->sendFrom = $_POST[self::$sendFromReference];
 
         $message = "";
 
@@ -58,7 +61,11 @@ class MailView {
         } 
         
         if(!$this->mailModel->isMailValid($obj->sendTo)) {
-            $message .= "Mail is not valid.";
+            $message .= "The receivers mail is not valid. ";
+        }
+
+        if(!$this->mailModel->isMailValid($obj->sendFrom)) {
+            $message .= "Sender's email is invalid.";
         }
 
         if(strlen($message) > 0) {
@@ -75,18 +82,31 @@ class MailView {
                 <title>'. $obj->title .'</title>
             </head>
             <body>
+                <h1>' . $obj->title . '</h1>
                 <p>'. $obj->msg .'</p>
             </body>
         </html>';
 
         $obj->msg = $message;
+        $obj->headers = "From: <". $obj->sendFrom ."> \r\n";
+        $obj->headers .= "MIME-Version: 1.0\r\n";
+        $obj->headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 
-        $this->mailModel->sendMail($obj);
+        if($this->mailModel->sendMail($obj)) {
+            return true;
+        }
+        
+        throw new \Exception('The mail was not sent.');
     }
 
-    public function setErrorMessage(string $value) {
-        $this->errorMsg = $value;
-        $this->styleMsgID = "errorMsg";
+    public function setErrorMessage(string $value) : void {
+        $this->stateMsg = $value;
+        $this->stateStyle = "errorMsg";
+    }
+
+    public function setSuccessMessage() : void {
+        $this->stateMsg = "Your message has been sent.";
+        $this->stateStyle = "successMsg";
     }
 
 }

@@ -23,7 +23,11 @@ class Mail {
     }
 
     public function sendMail (object $mail) {
-        mail($mail->sendTo,$mail->title,$mail->msg);
+        if(mail($mail->sendTo,$mail->title,$mail->msg, $mail->headers)) {
+            return true;
+        }
+
+        else false;
     }
 
 }
