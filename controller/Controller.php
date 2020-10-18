@@ -52,7 +52,10 @@ class Controller {
 
 			try {
 
-				$this->loginView->setLogoutMessage();
+				if($this->loginView->loginModel->setLogoutMessage()) {
+					$this->loginView->generateLogoutMessage();
+				}
+
 				$this->loginView->destroySessions();
 
 			} catch (\Exception $e) {

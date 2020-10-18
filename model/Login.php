@@ -1,4 +1,5 @@
 <?php
+// TODO: COOKIES TILL VYN
 
 namespace model;
 
@@ -9,9 +10,9 @@ class Login {
     private static $src = './database/credits.json';
     private static $userKey = "username";
     private static $passKey = "password";
-    private static $cookieName = 'LoginView::CookieName';
-    private static $cookiePassword = 'LoginView::CookiePassword';
+    
     private static $sessionUser = 'sessionUser';
+    private static $reloadPage = 'reload';
     
     public $loggedIn;
 
@@ -42,38 +43,29 @@ class Login {
         return false;
     }
 
-    public function setCookie (\model\User $user) : void {
-
-        setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
-        setcookie(self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
-        
-    }
-
     public function loggedIn() : bool {
         if($this->loggedIn == true) {
             return true;
-        } else if ($this->loggedInByCookie()) {
-            return true;
-        } else if (isset($_SESSION[self::$sessionUser])) {
+        }
+        
+        if (isset($_SESSION[self::$sessionUser])) {
             return true;
         }
         
         return false;
     }
 
-    public function loggedInByCookie() : bool {
-        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
-    }
-
-    public function setLogin(\model\User $user) : void {
+    public function setLogin(\model\User $user) : bool {
 
         $this->loggedIn = true;
         
         $this->setLoginSession();
 
         if ($user->getKeepLoggedIn() == 'on') {
-            $this->setCookie($user);
+            return true;
         }
+
+        return false;
 
     }
 
@@ -81,11 +73,27 @@ class Login {
         $_SESSION[self::$sessionUser] = true;
     }
 
-    public function deleteCookies() : void {
-        
-        setcookie(self::$cookieName, "", time() - 3600, '/');
-        setcookie(self::$cookiePassword, "", time() - 3600, '/');
+    public function destroySessions() : void {
+        unset($_SESSION[self::$sessionUser]);
+		unset($_SESSION[self::$reloadPage]);
+    }
 
+    public function reload () : bool {
+		if(isset($_SESSION[self::$reloadPage])) {
+			return true;
+		}
+		
+		$_SESSION[self::$reloadPage] = false;
+
+		return false;
+    }
+    
+    public function setLogoutMessage() : bool {
+		return isset($_SESSION[self::$sessionUser]);
+    }
+    
+    // TODO: MIGHT WANT TO REMOVE
+    public function refreshPage() : void {
         header("Refresh:0");
     }
 }

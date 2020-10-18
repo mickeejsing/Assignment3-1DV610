@@ -6,6 +6,7 @@ class Register {
     
     private static $src = './database/credits.json';
     private static $userKey = "username";
+    private static $write = "w";
 
     public function isShortUsername (string $userName) : bool {
         if(strlen($userName) < 3) {
@@ -46,7 +47,7 @@ class Register {
     }
 
     public function writeUserToFile(array $data) : void {
-        $myfile = fopen(self::$src, "w");
+        $myfile = fopen(self::$src, self::$write);
         fwrite($myfile, Json_encode($data));
         fclose($myfile);
     }

@@ -15,9 +15,6 @@ class LoginView {
 	private static $cookieName = 'LoginView::CookieName';
     private static $cookiePassword = 'LoginView::CookiePassword';
 
-	private static $sessionUser = 'sessionUser';
-	private static $reloadPage = 'reload';
-
 	public $loginMessage = '';
 	public $saveUserAferSubmit = '';
 
@@ -30,7 +27,7 @@ class LoginView {
 	// Returns HTML response.
 	public function response() : string {
 
-		if (!$this->loginModel->loggedIn()) {
+		if (!$this->loginModel->loggedIn() || $this->loggedInByCookie()) {
 
 			$message = $this->loginMessage;
 			$saveUserAferSubmit = $this->saveUserAferSubmit;
@@ -39,7 +36,7 @@ class LoginView {
 			
 		} else {
 
-			if($this->reload()) {
+			if($this->loginModel->reload()) {
 				$message = "";
 			} else {
 				$message = "Welcome";
@@ -51,6 +48,10 @@ class LoginView {
 
 		return $response;
 	}
+
+    public function loggedInByCookie() : bool {
+        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
+    }
 
 	private function generateLogoutButtonHTML(string $message) : string {
 
@@ -131,6 +132,13 @@ class LoginView {
 		return true;
 	}
 
+	public function setCookie (\model\User $user) : void {
+
+        setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
+        setcookie(self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
+        
+    }
+
 	public function userWantsToLogin() : bool {
 		return isset($_POST[self::$name]);
 	}
@@ -160,33 +168,31 @@ class LoginView {
 		return false;
 	}
 
+	// Keep logged in by cookie if true;
 	public function loginUser(\model\User $user) : void {
-		$this->loginModel->setLogin($user);
-	}
-
-	public function setLogoutMessage() : void {
-		
-		if (isset($_SESSION[self::$sessionUser])) {
-			$this->setLoginMessage("Bye bye!");
+		if($this->loginModel->setLogin($user)) {
+			$this->setCookie($user);
 		}
 	}
 
 	public function destroySessions () : void {
-		unset($_SESSION[self::$sessionUser]);
-		unset($_SESSION[self::$reloadPage]);
+		
+		$this->loginModel->destroySessions();
 
 		if (isset($_COOKIE[self::$cookieName])) {
-			$this->loginModel->deleteCookies();
+			$this->deleteCookies();
 		}
 	}
 
-	public function reload () : bool {
-		if(isset($_SESSION[self::$reloadPage])) {
-			return true;
-		}
-		
-		$_SESSION[self::$reloadPage] = false;
+	public function deleteCookies() : void {
+        
+        setcookie(self::$cookieName, "", time() - 3600, '/');
+        setcookie(self::$cookiePassword, "", time() - 3600, '/');
 
-		return false;
+        $this->loginModel->refreshPage();
+    }
+	
+	public function generateLogoutMessage () : void {
+		$this->setLoginMessage("Bye bye!");
 	}
 }
