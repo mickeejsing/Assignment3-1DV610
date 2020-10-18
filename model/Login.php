@@ -16,7 +16,7 @@ class Login {
     public $loggedIn;
 
 
-    public function isEmpty ($userName) {
+    public function isEmpty (string $userName) : bool {
         if(strlen($userName) == 0) {
             return true;
         }
@@ -31,7 +31,7 @@ class Login {
         return $json_data;
     }
 
-    public function validCredits($data, $userName, $passWord) {
+    public function validCredits(array $data, string $userName, string $passWord) : bool {
 
         foreach ($data as $user) {
             if($user[self::$userKey] == $userName && $user[self::$passKey] == sha1(htmlentities(trim($passWord)))) {
@@ -42,28 +42,30 @@ class Login {
         return false;
     }
 
-    public function setCookie (\model\User $user) {
+    public function setCookie (\model\User $user) : void {
 
         setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
         setcookie(self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
         
     }
 
-    public function loggedIn() {
+    public function loggedIn() : bool {
         if($this->loggedIn == true) {
             return true;
         } else if ($this->loggedInByCookie()) {
             return true;
         } else if (isset($_SESSION[self::$sessionUser])) {
             return true;
-        }   
+        }
+        
+        return false;
     }
 
-    public function loggedInByCookie() {
+    public function loggedInByCookie() : bool {
         return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
     }
 
-    public function setLogin(\model\User $user) {
+    public function setLogin(\model\User $user) : void {
 
         $this->loggedIn = true;
         
@@ -75,11 +77,11 @@ class Login {
 
     }
 
-    private function setLoginSession() {
+    private function setLoginSession() : void {
         $_SESSION[self::$sessionUser] = true;
     }
 
-    public function deleteCookies() {
+    public function deleteCookies() : void {
         
         setcookie(self::$cookieName, "", time() - 3600, '/');
         setcookie(self::$cookiePassword, "", time() - 3600, '/');

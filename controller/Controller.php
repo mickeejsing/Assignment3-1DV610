@@ -11,7 +11,7 @@ class Controller {
 
 	private static $sessionUser = 'sessionUser';
 
-	public function __construct($layoutView, $loginView, $registerView, $mailView) {
+	public function __construct(\view\LayoutView $layoutView, \view\LoginView $loginView, \view\RegisterView $registerView, \view\MailView $mailView) {
         $this->layoutView = $layoutView;
 		$this->registerView = $registerView;
 		$this->loginView = $loginView;

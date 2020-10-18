@@ -23,7 +23,7 @@ class MailView {
 		$this->mailModel = $mailModel;
     }
     
-    public function wantsToSendMail () {
+    public function wantsToSendMail () : bool {
         if(isset($_POST[self::$mailReference])) {
             return true;
         }
@@ -31,7 +31,7 @@ class MailView {
         return false;
     }
 
-    public function returnMailForm() {
+    public function returnMailForm() : string {
         return '<form method="post" action=""> 
                     <div id="' . $this->stateStyle . '"><p>' . $this->stateMsg . '</p></div>
                     <input type="text" name="title" placeholder="Enter your title">
@@ -43,7 +43,7 @@ class MailView {
                 </form>';
     }
 
-    public function verifyCredits() {
+    public function verifyCredits() : object {
         
         $obj = new \stdClass();
 
@@ -132,7 +132,7 @@ class MailView {
         return $morse;
     }
 
-    public function charToMorse($char) {
+    public function charToMorse(string $char) : string {
 
         $char = strtolower($char);
 

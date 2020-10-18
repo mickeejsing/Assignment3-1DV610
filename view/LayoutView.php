@@ -6,7 +6,8 @@ class LayoutView {
 
   private static $register = "register";
   
-  public function render($isLoggedIn, LoginView $lv, DateTimeView $dtv, RegisterView $rv, MailView $mv) {
+  // TODO: Type safety.
+  public function render(bool $isLoggedIn, \view\LoginView $lv, \view\DateTimeView $dtv, \view\RegisterView $rv, \view\MailView $mv) {
     
     echo '<!DOCTYPE html>
           <html lang="en">
@@ -33,7 +34,7 @@ class LayoutView {
     ';
   }
   
-  private function renderIsLoggedIn($isLoggedIn) {
+  private function renderIsLoggedIn($isLoggedIn) : string  {
     if ($isLoggedIn) {
       return '<h2>Logged in</h2>';
     }
@@ -54,15 +55,16 @@ class LayoutView {
     }
   }
 
-  private function showCurrentPage($lv, $rv, $mv) {
+  private function showCurrentPage(\view\LoginView $loginView, \view\RegisterView $registerView, \view\MailView $mailView) : string  {
     if(isset($_GET[self::$register])) {
-      return $rv->response();
+      return $registerView->response();
     } 
     
-    if($lv->loginModel->loggedIn()) {
-      return $lv->response() . $mv->returnMailForm();
-    } else {
-      return $lv->response();
+    if($loginView->loginModel->loggedIn()) {
+      return $loginView->response() . $mailView->returnMailForm();
     }
+    
+    return $loginView->response();
+    
   }
 }

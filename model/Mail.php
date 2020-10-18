@@ -6,7 +6,7 @@ class Mail {
 
     private $mail;
 
-    public function isMailValid(string $mail) {
+    public function isMailValid(string $mail) : bool {
         if (filter_var($mail, FILTER_VALIDATE_EMAIL)) {
             return true;
         }
@@ -14,7 +14,7 @@ class Mail {
         return false;
     }
 
-    public function isEmpty($value) {
+    public function isEmpty(string $value) : bool {
         if(strlen($value) == 0) {
             return true;
         }
@@ -22,12 +22,12 @@ class Mail {
         return false;
     }
 
-    public function sendMail (object $mail) {
+    public function sendMail (object $mail) : bool {
         if(mail($mail->sendTo,$mail->title,$mail->msg, $mail->headers)) {
             return true;
         }
 
-        else false;
+        return false;
     }
 
 }

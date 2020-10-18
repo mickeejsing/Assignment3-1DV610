@@ -27,14 +27,8 @@ class LoginView {
 		$this->loginModel = $loginModel;
 	}
 
-	/**
-	 * Create HTTP response
-	 *
-	 * Should be called after a login attempt has been determined
-	 *
-	 * @return  void BUT writes to standard output and cookies!
-	 */
-	public function response() {
+	// Returns HTML response.
+	public function response() : string {
 
 		if (!$this->loginModel->loggedIn()) {
 
@@ -58,12 +52,8 @@ class LoginView {
 		return $response;
 	}
 
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
-	private function generateLogoutButtonHTML($message) {
+	private function generateLogoutButtonHTML(string $message) : string {
+
 		return '
 			<form  method="post" >
 				<p class="msg" id="' . self::$messageId . '">' . $message .'</p>
@@ -72,12 +62,8 @@ class LoginView {
 		';
 	}
 	
-	/**
-	* Generate HTML code on the output buffer for the logout button
-	* @param $message, String output message
-	* @return  void, BUT writes to standard output!
-	*/
-	private function generateLoginFormHTML($message) {
+	private function generateLoginFormHTML(string $message) : string {
+		
 		return '
 			<form method="post" > 
 				<fieldset>
@@ -117,7 +103,7 @@ class LoginView {
 		return $user;
 	}
 
-	public function isUserNameValid($userName) {
+	public function isUserNameValid(string $userName) : bool {
 
 		if ($this->loginModel->isEmpty($userName)) {
 
@@ -130,7 +116,7 @@ class LoginView {
 		return true;
 	}
 
-	public function isPassWordValid($password) {
+	public function isPassWordValid(string $password) : bool {
 
 		$this->saveUserAferSubmit();
 
@@ -145,23 +131,20 @@ class LoginView {
 		return true;
 	}
 
-	public function userWantsToLogin() {
-		if(isset($_POST[self::$name])) {
-			return true;
-		}
+	public function userWantsToLogin() : bool {
+		return isset($_POST[self::$name]);
 	}
 
-	public function userWantsToLogout() {
-		if(isset($_POST[self::$logout])) {
-			return true;
-		}
+	public function userWantsToLogout() : bool {
+		return isset($_POST[self::$logout]);
 	}
 	
-	public function setLoginMessage($msg) {
+	public function setLoginMessage(string $msg) : void {
+
 		$this->loginMessage.= $msg;
 	}
 
-	private function saveUserAferSubmit() {
+	private function saveUserAferSubmit() : void {
 		$this->saveUserAferSubmit = $_POST[self::$name];
 	}
 
@@ -177,18 +160,18 @@ class LoginView {
 		return false;
 	}
 
-	public function loginUser(\model\User $user) {
+	public function loginUser(\model\User $user) : void {
 		$this->loginModel->setLogin($user);
 	}
 
-	public function setLogoutMessage() {
+	public function setLogoutMessage() : void {
 		
 		if (isset($_SESSION[self::$sessionUser])) {
 			$this->setLoginMessage("Bye bye!");
 		}
 	}
 
-	public function destroySessions () {
+	public function destroySessions () : void {
 		unset($_SESSION[self::$sessionUser]);
 		unset($_SESSION[self::$reloadPage]);
 
@@ -197,7 +180,7 @@ class LoginView {
 		}
 	}
 
-	public function reload () {
+	public function reload () : bool {
 		if(isset($_SESSION[self::$reloadPage])) {
 			return true;
 		}

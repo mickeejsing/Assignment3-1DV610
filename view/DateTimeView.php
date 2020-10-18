@@ -12,7 +12,7 @@ class DateTimeView {
 		$this->serverTime = $serverTime;
 	}
 
-	public function show() {
+	public function show() : string {
 
 		$timeString = $this->serverTime->getDay() . ", the " . $this->serverTime->getIntDay() .  $this->serverTime->getPrefix($this->serverTime->getIntDay()) . " of " . $this->serverTime->getMonth() . " " .$this->serverTime->getYear(). ", The time is " . $this->serverTime->getTime();
 

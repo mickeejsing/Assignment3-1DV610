@@ -7,7 +7,7 @@ class Register {
     private static $src = './database/credits.json';
     private static $userKey = "username";
 
-    public function isShortUsername ($userName) {
+    public function isShortUsername (string $userName) : bool {
         if(strlen($userName) < 3) {
             return true;
         }
@@ -15,7 +15,7 @@ class Register {
         return false;
     }
 
-    public function isShortPassword ($passWord) {
+    public function isShortPassword (string $passWord) : bool {
         if(strlen($passWord) < 6) {
             return true;
         }
@@ -23,7 +23,7 @@ class Register {
         return false;
     }
 
-    public function isEqual ($x, $y) {
+    public function isEqual (string $x, string $y) : bool {
         if($x == $y) {
             return true;
         }
@@ -45,7 +45,7 @@ class Register {
         $this->writeUserToFile($data);
     }
 
-    public function writeUserToFile($data) {
+    public function writeUserToFile(array $data) : void {
         $myfile = fopen(self::$src, "w");
         fwrite($myfile, Json_encode($data));
         fclose($myfile);

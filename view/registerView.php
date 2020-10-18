@@ -12,11 +12,6 @@ class RegisterView {
 	public $registrationMessage = '';
 	public $registerModel;
 
-	// private static $cookieName = 'LoginView::CookieName';
-	// private static $cookiePassword = 'LoginView::CookiePassword';
-	// private static $keep = 'LoginView::KeepMeLoggedIn';
-	// private static $messageId = 'LoginView::Message';
-
 	public function __construct (\model\Register $registerModel) {
 		$this->registerModel = $registerModel;
 	}
@@ -28,7 +23,7 @@ class RegisterView {
 		return $response;
 	}
 	
-	private function generateRegisterFormHTML($message) {
+	private function generateRegisterFormHTML(string $message) {
         return '
 		<form action="?register" method="post" enctype="multipart/form-data">
 			<fieldset>
@@ -50,7 +45,7 @@ class RegisterView {
 		';
 	}
 	
-	public function getRequestCredits() {
+	public function getRequestCredits() : \model\User {
 
 		$user = new \model\User();
 
@@ -61,7 +56,7 @@ class RegisterView {
 		return $user;
 	}
 
-	public function validateUser(\model\User $user) {
+	public function validateUser(\model\User $user) : \model\User {
 
 		$errorMessage = "";
 
@@ -88,17 +83,16 @@ class RegisterView {
 		return $user;
 	}
 
-	public function userWantsToRegister() {
-		if(isset($_POST[self::$userName])) {
-			return true;
-		}
+	public function userWantsToRegister() : bool {
+		return isset($_POST[self::$userName]);
 	}
 	
-	public function setRegistrationMessage($msg) {
+	public function setRegistrationMessage($msg) : void {
 		$this->registrationMessage.= $msg;
 	}
 
-	public function writeValue($value) {
+	public function writeValue($value) : string {
+		
 		if(isset($_POST[$value])) {
 			return $_POST[$value];
 		}
