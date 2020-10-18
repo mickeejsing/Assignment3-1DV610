@@ -41,7 +41,7 @@ textarea {
     height: 150px;
 }
 
-#btn {
+.btn {
     width: 100%;
     padding: 10px;
     background-color: black;

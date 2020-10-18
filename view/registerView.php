@@ -103,7 +103,7 @@ class RegisterView {
 				<label for="' . self::$passwordRepeat . '" >Repeat password  :</label>
 				<input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$passwordRepeat . '" value="' . $this->writeValue(self::$passwordRepeat) . '" />
 				<br/>
-				<input id="btn" type="submit" name="' . self::$register . '" value="Register">
+				<input class="btn" type="submit" name="' . self::$register . '" value="Register">
 				<br/>
 			</fieldset>
 		</form>
