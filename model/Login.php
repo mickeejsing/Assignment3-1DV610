@@ -13,9 +13,6 @@ class Login {
     private static $sessionUser = 'sessionUser';
     private static $reloadPage = 'reload';
     
-    public $loggedIn;
-
-
     public function isEmpty (string $userName) : bool {
         if(strlen($userName) == 0) {
             return true;
@@ -43,20 +40,10 @@ class Login {
     }
 
     public function loggedIn() : bool {
-        if($this->loggedIn == true) {
-            return true;
-        }
-        
-        if (isset($_SESSION[self::$sessionUser])) {
-            return true;
-        }
-        
-        return false;
+        return isset($_SESSION[self::$sessionUser]);
     }
 
     public function setLogin(\model\User $user) : bool {
-
-        $this->loggedIn = true;
         
         $this->setLoginSession();
 
@@ -73,8 +60,16 @@ class Login {
     }
 
     public function destroySessions() : void {
-        unset($_SESSION[self::$sessionUser]);
-		unset($_SESSION[self::$reloadPage]);
+
+        if(isset($_SESSION)) {
+
+            unset($_SESSION[self::$sessionUser]);
+            unset($_SESSION[self::$reloadPage]);
+        }
+        
+        else {
+            throw new \Exception("No user to log out.");
+        }
     }
 
     public function reload () : bool {
@@ -85,10 +80,6 @@ class Login {
 		$_SESSION[self::$reloadPage] = false;
 
 		return false;
-    }
-    
-    public function setLogoutMessage() : bool {
-		return isset($_SESSION[self::$sessionUser]);
     }
     
     // TODO: MIGHT WANT TO REMOVE

@@ -45,7 +45,7 @@ class App {
 	}
 
     public function renderOutput() {
-        $this->layoutView->render($this->loginView->loginModel->loggedIn(), $this->loginView, $this->dateTimeView, $this->registerView, $this->mailView);
+        $this->layoutView->render($this->loginView->loggedIn(), $this->loginView, $this->dateTimeView, $this->registerView, $this->mailView);
     }
 
 }

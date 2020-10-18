@@ -26,21 +26,16 @@ class Controller {
 
 				$user = $this->loginView->getRequestCredits();
 
-				if ($this->loginView->isUserNameValid($user->getUsername())) {
+				$this->loginView->isUserNameValid($user);
 
-					if($this->loginView->isPassWordValid($user->getPassword())) {
+				$this->loginView->isPassWordValid($user);
 
-						if($this->loginView->userAuthorized($user)) {
-							
-							$this->loginView->loginUser($user);
-
-						} 
-					}
-
-				}
-
+				$this->loginView->userAuthorized($user);
+					
+				$this->loginView->loginUser($user);
+				
 			} catch (\Exception $e) {
-				//$this->view->setNameWasTooShort();
+				$this->loginView->setLoginMessage($e->getMessage());
 			}
 		}
 
@@ -48,18 +43,18 @@ class Controller {
 
 	public function doLogout() {
 
-		if ($this->loginView->userWantsToLogout() && isset($_SESSION[self::$sessionUser])) {
+		if ($this->loginView->userWantsToLogout()) {
 
 			try {
 
-				if($this->loginView->loginModel->setLogoutMessage()) {
+				if($this->loginView->loggedIn()) {
 					$this->loginView->generateLogoutMessage();
 				}
 
 				$this->loginView->destroySessions();
 
 			} catch (\Exception $e) {
-				//$this->view->setNameWasTooShort();
+				echo $e->getMessage();
 			}
 		}
 	}
@@ -71,7 +66,6 @@ class Controller {
 			try {
 				$user = $this->registerView->getRequestCredits();
 				$this->registerView->validateUser($user);
-
 				$this->registerView->registerModel->saveUser($user);
 
 			} catch (\Exception $e) {

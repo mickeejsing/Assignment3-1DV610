@@ -104,32 +104,30 @@ class LoginView {
 		return $user;
 	}
 
-	public function isUserNameValid(string $userName) : bool {
+	public function isUserNameValid(\model\User $user) : void {
 
-		if ($this->loginModel->isEmpty($userName)) {
-
-			$this->setLoginMessage("Username is missing");
-
-			return false;
-
+		if ($this->loginModel->isEmpty($user->getUsername())) {
+			throw new \Exception("Username is missing.");
 		}
 
-		return true;
 	}
 
-	public function isPassWordValid(string $password) : bool {
+	public function isPassWordValid(\model\User $user) : void {
 
 		$this->saveUserAferSubmit();
 
-		if ($this->loginModel->isEmpty($password)) {
-
-			$this->setLoginMessage("Password is missing");
-
-			return false;
-
+		if ($this->loginModel->isEmpty($user->getPassword())) {
+			throw new \Exception("Password is missing");
 		} 
+	}
 
-		return true;
+	public function userAuthorized(\model\User $user) : void {
+
+		$data = $this->loginModel->readFromJSON();
+
+		if(!$this->loginModel->validCredits($data, $user->getUserName(), $user->getPassword())) {
+			throw new \Exception("Wrong name or password");
+		} 
 	}
 
 	public function setCookie (\model\User $user) : void {
@@ -143,8 +141,12 @@ class LoginView {
 		return isset($_POST[self::$name]);
 	}
 
-	public function userWantsToLogout() : bool {
+	public function userWantsToLogout() : bool {	
 		return isset($_POST[self::$logout]);
+	}
+	
+	public function loggedIn() : bool {
+		return $this->loginModel->loggedIn();
 	}
 	
 	public function setLoginMessage(string $msg) : void {
@@ -154,18 +156,6 @@ class LoginView {
 
 	private function saveUserAferSubmit() : void {
 		$this->saveUserAferSubmit = $_POST[self::$name];
-	}
-
-	public function userAuthorized(\model\User $user) : bool {
-
-		$data = $this->loginModel->readFromJSON();
-
-		if($this->loginModel->validCredits($data, $user->getUserName(), $user->getPassword())) {
-			return true;
-		} 
-
-		$this->setLoginMessage("Wrong name or password");
-		return false;
 	}
 
 	// Keep logged in by cookie if true;
@@ -179,6 +169,7 @@ class LoginView {
 		
 		$this->loginModel->destroySessions();
 
+		// If user has clicked keep logged in.
 		if (isset($_COOKIE[self::$cookieName])) {
 			$this->deleteCookies();
 		}
