@@ -6,7 +6,6 @@ class LayoutView {
 
   private static $register = "register";
   
-  // TODO: Type safety.
   public function render(bool $isLoggedIn, \view\LoginView $lv, \view\DateTimeView $dtv, \view\RegisterView $rv, \view\MailView $mv) {
     
     echo '<!DOCTYPE html>
