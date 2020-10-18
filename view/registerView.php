@@ -7,7 +7,7 @@ class RegisterView {
 	private static $userName = 'RegisterView::UserName';
 	private static $password = 'RegisterView::Password';
     private static $passwordRepeat = 'RegisterView::PasswordRepeat';
-	private static $messageId = 'RegisterView::Message';
+	private static $register = 'RegisterView::Register';
 	
 	public $registrationMessage = '';
 	public $registerModel;
@@ -28,17 +28,17 @@ class RegisterView {
 		<form action="?register" method="post" enctype="multipart/form-data">
 			<fieldset>
 			<legend>Register a new user - Write username and password</legend>
-				<p id="RegisterView::Message">' . $message . '</p>
-				<label for="RegisterView::UserName" >Username :</label>
-				<input type="text" size="20" name="RegisterView::UserName" id="RegisterView::UserName" value="' . $this->writeValue(self::$userName) . '" />
+				<p id="' . self::$message . '">' . $message . '</p>
+				<label for="' . self::$userName . '" >Username :</label>
+				<input type="text" size="20" name="' . self::$userName . '" id="' . self::$userName . '" value="' . $this->writeValue(self::$userName) . '" />
 				<br/>
 				<label for="RegisterView::Password" >Password  :</label>
-				<input type="password" size="20" name="RegisterView::Password" id="RegisterView::Password" value="' . $this->writeValue(self::$password) . '" />
+				<input type="password" size="20" name="' . self::$password . '" id="' . self::$password . '" value="' . $this->writeValue(self::$password) . '" />
 				<br/>
-				<label for="RegisterView::PasswordRepeat" >Repeat password  :</label>
-				<input type="password" size="20" name="RegisterView::PasswordRepeat" id="RegisterView::PasswordRepeat" value="' . $this->writeValue(self::$passwordRepeat) . '" />
+				<label for="' . self::$passwordRepeat . '" >Repeat password  :</label>
+				<input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$passwordRepeat . '" value="' . $this->writeValue(self::$passwordRepeat) . '" />
 				<br/>
-				<input id="RegisterView::Register" type="submit" name="RegisterView::Register" value="Register">
+				<input id="' . self::$register . '" type="submit" name="' . self::$register . '" value="Register">
 				<br/>
 			</fieldset>
 		</form>

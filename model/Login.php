@@ -1,5 +1,4 @@
 <?php
-// TODO: COOKIES TILL VYN
 
 namespace model;
 
