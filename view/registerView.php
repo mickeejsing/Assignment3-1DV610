@@ -8,6 +8,7 @@ class RegisterView {
 	private static $password = 'RegisterView::Password';
     private static $passwordRepeat = 'RegisterView::PasswordRepeat';
 	private static $register = 'RegisterView::Register';
+	private static $savedLoginName = 'SaveUser';
 	
 	public $registrationMessage = '';
 	public $registerModel;
@@ -59,7 +60,12 @@ class RegisterView {
 	}
 
 	public function saveUser(\model\User $user) {
+		$this->rememberUsernameByCookie($user);
 		$this->registerModel->saveUser($user);
+	}
+
+	public function rememberUsernameByCookie (\model\User $user) {
+		setcookie(self::$savedLoginName, $user->getUsername(), time() + 3600, '/');
 	}
 
 	public function setRegistrationMessage($msg) : void {

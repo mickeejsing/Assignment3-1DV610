@@ -13,7 +13,8 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 	private static $cookieName = 'LoginView::CookieName';
-    private static $cookiePassword = 'LoginView::CookiePassword';
+	private static $cookiePassword = 'LoginView::CookiePassword';
+	private static $savedLoginName = 'SaveUser';
 
 	public $loginMessage = '';
 	public $saveUserAferSubmit = '';
@@ -135,7 +136,7 @@ class LoginView {
 					<p id="' . self::$messageId . '">' . $message . '</p>
 					
 					<label for="' . self::$name . '">Username :</label>
-					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->saveUserAferSubmit . '" />
+					<input type="text" id="' . self::$name . '" name="' . self::$name . '" value="' . $this->renderUsernameInput() . '" />
 
 					<label for="' . self::$password . '">Password :</label>
 					<input type="password" id="' . self::$password . '" name="' . self::$password . '" />
@@ -147,6 +148,23 @@ class LoginView {
 				</fieldset>
 			</form>
 		';
+	}
+
+	private function renderUsernameInput() {
+		
+		if(strlen($this->saveUserAferSubmit) > 0) {
+			return $this->saveUserAferSubmit;
+		}
+
+		return $this->renderSavedUser();
+	}
+
+	private function renderSavedUser(): string {
+		if (isset($_COOKIE[self::$savedLoginName])) {
+			return $_COOKIE[self::$savedLoginName];
+		}
+
+		return "";
 	}
 	
 	public function userWantsToLogout() : bool {	

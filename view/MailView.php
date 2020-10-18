@@ -149,7 +149,9 @@ class MailView {
             return "._._";
                  case 'ö': 
             return "___."; 
-            } 
+                default:
+            return "";
+            }
     }
 
     public function formatAndSend(object $obj) {
