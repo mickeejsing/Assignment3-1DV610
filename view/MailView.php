@@ -31,18 +31,6 @@ class MailView {
         return false;
     }
 
-    public function returnMailForm() : string {
-        return '<form method="post" action=""> 
-                    <div id="' . $this->stateStyle . '"><p>' . $this->stateMsg . '</p></div>
-                    <input type="text" name="title" placeholder="Enter your title">
-                    <input type="text" name="sendFrom" placeholder="Sent from email">
-                    <input type="text" name="sendTo" placeholder="Sent to email">
-                    <textarea name="mail" placeholder="Enter your message"></textarea>
-                    <input id="morse" type="checkbox" name="morse"><label for="morse">Convert to morse code.</label>
-                    <input type="submit"  value="Send mail" id="btn" >
-                </form>';
-    }
-
     public function verifyCredits() : object {
         
         $obj = new \stdClass();
@@ -78,40 +66,6 @@ class MailView {
         return $obj;
     }
 
-    public function formatAndSend(object $obj) {
-        $message = '
-        <html>
-            <head>
-                <title>'. $obj->title .'</title>
-            </head>
-            <body>
-                <h1>' . $obj->title . '</h1>
-                <p>'. $obj->msg .'</p>
-            </body>
-        </html>';
-
-        $obj->msg = $message;
-        $obj->headers = "From: <". $obj->sendFrom ."> \r\n";
-        $obj->headers .= "MIME-Version: 1.0\r\n";
-        $obj->headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-
-        if($this->mailModel->sendMail($obj)) {
-            return true;
-        }
-        
-        throw new \Exception('The mail was not sent.');
-    }
-
-    public function setErrorMessage(string $value) : void {
-        $this->stateMsg = $value;
-        $this->stateStyle = "errorMsg";
-    }
-
-    public function setSuccessMessage() : void {
-        $this->stateMsg = "Your message has been sent.";
-        $this->stateStyle = "successMsg";
-    }
-
     public function stringToMorse(string $str) : string {
 
         $morse = "";
@@ -132,7 +86,7 @@ class MailView {
         return $morse;
     }
 
-    public function charToMorse(string $char) : string {
+    private function charToMorse(string $char) : string {
 
         $char = strtolower($char);
 
@@ -198,4 +152,49 @@ class MailView {
             } 
     }
 
+    public function formatAndSend(object $obj) {
+        $message = '
+        <html>
+            <head>
+                <title>'. $obj->title .'</title>
+            </head>
+            <body>
+                <h1>' . $obj->title . '</h1>
+                <p>'. $obj->msg .'</p>
+            </body>
+        </html>';
+
+        $obj->msg = $message;
+        $obj->headers = "From: <". $obj->sendFrom ."> \r\n";
+        $obj->headers .= "MIME-Version: 1.0\r\n";
+        $obj->headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+
+        if($this->mailModel->sendMail($obj)) {
+            return true;
+        }
+        
+        throw new \Exception('The mail was not sent.');
+    }
+
+    public function setSuccessMessage() : void {
+        $this->stateMsg = "Your message has been sent.";
+        $this->stateStyle = "successMsg";
+    }
+
+    public function setErrorMessage(string $value) : void {
+        $this->stateMsg = $value;
+        $this->stateStyle = "errorMsg";
+    }
+
+    public function returnMailForm() : string {
+        return '<form method="post" action=""> 
+                    <div id="' . $this->stateStyle . '"><p>' . $this->stateMsg . '</p></div>
+                    <input type="text" name="title" placeholder="Enter your title">
+                    <input type="text" name="sendFrom" placeholder="Sent from email">
+                    <input type="text" name="sendTo" placeholder="Sent to email">
+                    <textarea name="mail" placeholder="Enter your message"></textarea>
+                    <input id="morse" type="checkbox" name="morse"><label for="morse">Convert to morse code.</label>
+                    <input type="submit"  value="Send mail" id="btn" >
+                </form>';
+    }
 }

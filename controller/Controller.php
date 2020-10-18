@@ -66,7 +66,7 @@ class Controller {
 			try {
 				$user = $this->registerView->getRequestCredits();
 				$this->registerView->validateUser($user);
-				$this->registerView->registerModel->saveUser($user);
+				$this->registerView->saveUser($user);
 
 			} catch (\Exception $e) {
 				$this->registerView->setRegistrationMessage($e->getMessage());

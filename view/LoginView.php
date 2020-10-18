@@ -24,6 +24,73 @@ class LoginView {
 		$this->loginModel = $loginModel;
 	}
 
+	public function userWantsToLogin() : bool {
+		return isset($_POST[self::$name]);
+	}
+
+	public function getRequestCredits() : \model\User {
+
+		$user = new \model\User();
+
+		$user->setUsername(trim($_POST[self::$name]));
+		$user->setPassword(trim($_POST[self::$password]));
+
+		if (isset( $_POST[self::$keep])) { 
+
+			$user->SetKeepLoggedIn(true);
+
+		} else {
+			$user->SetKeepLoggedIn(false);
+		}
+
+		return $user;
+	}
+
+	public function isUserNameValid(\model\User $user) : void {
+
+		if ($this->loginModel->isEmpty($user->getUsername())) {
+			throw new \Exception("Username is missing");
+		}
+
+	}
+
+	public function isPassWordValid(\model\User $user) : void {
+
+		$this->saveUserAferSubmit();
+
+		if ($this->loginModel->isEmpty($user->getPassword())) {
+			throw new \Exception("Password is missing");
+		} 
+	}
+
+	public function userAuthorized(\model\User $user) : void {
+
+		$data = $this->loginModel->readFromJSON();
+
+		if(!$this->loginModel->validCredits($data, $user->getUserName(), $user->getPassword())) {
+			throw new \Exception("Wrong name or password");
+		} 
+	}
+
+	// Keep logged in by cookie if true;
+	public function loginUser(\model\User $user) : void {
+		if($this->loginModel->setLogin($user)) {
+			$this->setCookie($user);
+		}
+	}
+
+	public function setCookie (\model\User $user) : void {
+
+        setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
+        setcookie(self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
+        
+	}
+	
+	public function setLoginMessage(string $msg) : void {
+
+		$this->loginMessage.= $msg;
+	}
+
 	// Returns HTML response.
 	public function response() : string {
 
@@ -48,10 +115,6 @@ class LoginView {
 
 		return $response;
 	}
-
-    public function loggedInByCookie() : bool {
-        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
-    }
 
 	private function generateLogoutButtonHTML(string $message) : string {
 
@@ -86,61 +149,6 @@ class LoginView {
 		';
 	}
 	
-	public function getRequestCredits() : \model\User {
-
-		$user = new \model\User();
-
-		$user->setUsername(trim($_POST[self::$name]));
-		$user->setPassword(trim($_POST[self::$password]));
-
-		if (isset( $_POST[self::$keep])) { 
-
-			$user->SetKeepLoggedIn($_POST[self::$keep]);
-
-		} else {
-			$user->SetKeepLoggedIn(false);
-		}
-
-		return $user;
-	}
-
-	public function isUserNameValid(\model\User $user) : void {
-
-		if ($this->loginModel->isEmpty($user->getUsername())) {
-			throw new \Exception("Username is missing.");
-		}
-
-	}
-
-	public function isPassWordValid(\model\User $user) : void {
-
-		$this->saveUserAferSubmit();
-
-		if ($this->loginModel->isEmpty($user->getPassword())) {
-			throw new \Exception("Password is missing");
-		} 
-	}
-
-	public function userAuthorized(\model\User $user) : void {
-
-		$data = $this->loginModel->readFromJSON();
-
-		if(!$this->loginModel->validCredits($data, $user->getUserName(), $user->getPassword())) {
-			throw new \Exception("Wrong name or password");
-		} 
-	}
-
-	public function setCookie (\model\User $user) : void {
-
-        setcookie(self::$cookieName, $user->getUsername(), time() + 3600, '/');
-        setcookie(self::$cookiePassword, $user->getPassword(), time() + 3600, '/');
-        
-    }
-
-	public function userWantsToLogin() : bool {
-		return isset($_POST[self::$name]);
-	}
-
 	public function userWantsToLogout() : bool {	
 		return isset($_POST[self::$logout]);
 	}
@@ -149,22 +157,6 @@ class LoginView {
 		return $this->loginModel->loggedIn();
 	}
 	
-	public function setLoginMessage(string $msg) : void {
-
-		$this->loginMessage.= $msg;
-	}
-
-	private function saveUserAferSubmit() : void {
-		$this->saveUserAferSubmit = $_POST[self::$name];
-	}
-
-	// Keep logged in by cookie if true;
-	public function loginUser(\model\User $user) : void {
-		if($this->loginModel->setLogin($user)) {
-			$this->setCookie($user);
-		}
-	}
-
 	public function destroySessions () : void {
 		
 		$this->loginModel->destroySessions();
@@ -174,16 +166,24 @@ class LoginView {
 			$this->deleteCookies();
 		}
 	}
+	
+	public function generateLogoutMessage () : void {
+		$this->setLoginMessage("Bye bye!");
+	}
 
-	public function deleteCookies() : void {
+	private function saveUserAferSubmit() : void {
+		$this->saveUserAferSubmit = $_POST[self::$name];
+	}
+
+	private function loggedInByCookie() : bool {
+        return isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword]);
+	}
+	
+	private function deleteCookies() : void {
         
         setcookie(self::$cookieName, "", time() - 3600, '/');
         setcookie(self::$cookiePassword, "", time() - 3600, '/');
 
         $this->loginModel->refreshPage();
     }
-	
-	public function generateLogoutMessage () : void {
-		$this->setLoginMessage("Bye bye!");
-	}
 }

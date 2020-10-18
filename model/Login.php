@@ -47,7 +47,7 @@ class Login {
         
         $this->setLoginSession();
 
-        if ($user->getKeepLoggedIn() == 'on') {
+        if ($user->getKeepLoggedIn()) {
             return true;
         }
 
@@ -66,7 +66,7 @@ class Login {
             unset($_SESSION[self::$sessionUser]);
             unset($_SESSION[self::$reloadPage]);
         }
-        
+            
         else {
             throw new \Exception("No user to log out.");
         }
@@ -82,7 +82,6 @@ class Login {
 		return false;
     }
     
-    // TODO: MIGHT WANT TO REMOVE
     public function refreshPage() : void {
         header("Refresh:0");
     }

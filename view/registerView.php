@@ -16,35 +16,10 @@ class RegisterView {
 		$this->registerModel = $registerModel;
 	}
 
-	public function response() {
-		$message = $this->registrationMessage;
-		
-		$response = $this->generateRegisterFormHTML($message);
-		return $response;
+	public function userWantsToRegister() : bool {
+		return isset($_POST[self::$userName]);
 	}
-	
-	private function generateRegisterFormHTML(string $message) {
-        return '
-		<form action="?register" method="post" enctype="multipart/form-data">
-			<fieldset>
-			<legend>Register a new user - Write username and password</legend>
-				<p id="' . self::$message . '">' . $message . '</p>
-				<label for="' . self::$userName . '" >Username :</label>
-				<input type="text" size="20" name="' . self::$userName . '" id="' . self::$userName . '" value="' . $this->writeValue(self::$userName) . '" />
-				<br/>
-				<label for="RegisterView::Password" >Password  :</label>
-				<input type="password" size="20" name="' . self::$password . '" id="' . self::$password . '" value="' . $this->writeValue(self::$password) . '" />
-				<br/>
-				<label for="' . self::$passwordRepeat . '" >Repeat password  :</label>
-				<input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$passwordRepeat . '" value="' . $this->writeValue(self::$passwordRepeat) . '" />
-				<br/>
-				<input id="' . self::$register . '" type="submit" name="' . self::$register . '" value="Register">
-				<br/>
-			</fieldset>
-		</form>
-		';
-	}
-	
+
 	public function getRequestCredits() : \model\User {
 
 		$user = new \model\User();
@@ -83,14 +58,14 @@ class RegisterView {
 		return $user;
 	}
 
-	public function userWantsToRegister() : bool {
-		return isset($_POST[self::$userName]);
+	public function saveUser(\model\User $user) {
+		$this->registerModel->saveUser($user);
 	}
-	
+
 	public function setRegistrationMessage($msg) : void {
 		$this->registrationMessage.= $msg;
 	}
-
+	
 	public function writeValue($value) : string {
 		
 		if(isset($_POST[$value])) {
@@ -98,6 +73,35 @@ class RegisterView {
 		}
 
 		return "";
+	}
+
+	public function response() {
+		$message = $this->registrationMessage;
+		
+		$response = $this->generateRegisterFormHTML($message);
+		return $response;
+	}
+
+	private function generateRegisterFormHTML(string $message) {
+        return '
+		<form action="?register" method="post" enctype="multipart/form-data">
+			<fieldset>
+			<legend>Register a new user - Write username and password</legend>
+				<p id="' . self::$message . '">' . $message . '</p>
+				<label for="' . self::$userName . '" >Username :</label>
+				<input type="text" size="20" name="' . self::$userName . '" id="' . self::$userName . '" value="' . $this->writeValue(self::$userName) . '" />
+				<br/>
+				<label for="RegisterView::Password" >Password  :</label>
+				<input type="password" size="20" name="' . self::$password . '" id="' . self::$password . '" value="' . $this->writeValue(self::$password) . '" />
+				<br/>
+				<label for="' . self::$passwordRepeat . '" >Repeat password  :</label>
+				<input type="password" size="20" name="' . self::$passwordRepeat . '" id="' . self::$passwordRepeat . '" value="' . $this->writeValue(self::$passwordRepeat) . '" />
+				<br/>
+				<input id="' . self::$register . '" type="submit" name="' . self::$register . '" value="Register">
+				<br/>
+			</fieldset>
+		</form>
+		';
 	}
 	
 }
