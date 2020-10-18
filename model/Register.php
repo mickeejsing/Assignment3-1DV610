@@ -44,6 +44,11 @@ class Register {
         array_push($data, $obj);
 
         $this->writeUserToFile($data);
+        $this->redirect();
+    }
+
+    public function redirect () {
+        header("location:index.php");
     }
 
     public function writeUserToFile(array $data) : void {
