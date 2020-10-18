@@ -6,16 +6,31 @@ date_default_timezone_set("Europe/Stockholm");
 
 class DateTimeView {
 
-	private $serverTime;
+	private $serverTimeModel;
 
 	public function __construct (\model\DateTime $serverTime) {
-		$this->serverTime = $serverTime;
+		$this->serverTimeModel = $serverTime;
 	}
 
 	public function show() : string {
 
-		$timeString = $this->serverTime->getDay() . ", the " . $this->serverTime->getIntDay() .  $this->serverTime->getPrefix($this->serverTime->getIntDay()) . " of " . $this->serverTime->getMonth() . " " .$this->serverTime->getYear(). ", The time is " . $this->serverTime->getTime();
+		$timeString = date("l") . ", the " . date("j") .  $this->printPrefix() . " of " . date("F") . " " .date("Y"). ", The time is " . date("h:i:s");
 
 		return '<p id="dtv">' . $timeString . '</p>';
+	}
+
+	public function printPrefix () {
+
+		$number = $this->serverTimeModel->calculatePrefix(date("j"));
+
+		if ($number == 1) {
+			return "st";
+		} else if ($number == 2) {
+			return "nd";
+		} else if ($number == 3) {
+			return "rd";
+		} else if ($number > 3) {
+			return "th";
+		}
 	}
 }
